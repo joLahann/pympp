@@ -1,0 +1,9 @@
+project:
+  output-dir: _docs
+
+website:
+  title: "pympp"
+  site-url: "https://joLahann.github.io/pympp"
+  description: "A toolkit for multimodal process prediction with neural networks in python."
+  repo-branch: main
+  repo-url: "https://github.com/joLahann/pympp"
