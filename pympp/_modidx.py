@@ -5,4 +5,10 @@ d = { 'settings': { 'branch': 'main',
                 'doc_host': 'https://joLahann.github.io',
                 'git_url': 'https://github.com/joLahann/pympp',
                 'lib_path': 'pympp'},
-  'syms': {'pympp.core': {'pympp.core.foo': ('core.html#foo', 'pympp/core.py')}}}
+  'syms': { 'pympp.anomaly.detect': {'pympp.anomaly.detect.foo': ('anomaly.detect.html#foo', 'pympp/anomaly/detect.py')},
+            'pympp.core': {'pympp.core.foo': ('core.html#foo', 'pympp/core.py')},
+            'pympp.logs': {'pympp.logs.convert_to_df': ('logs.html#convert_to_df', 'pympp/logs.py')},
+            'pympp.prediction.eval': {'pympp.prediction.eval.foo': ('prediction.eval.html#foo', 'pympp/prediction/eval.py')},
+            'pympp.prediction.models': {'pympp.prediction.models.foo': ('prediction.models.html#foo', 'pympp/prediction/models.py')},
+            'pympp.prediction.predict': {'pympp.prediction.predict.foo': ('prediction.predict.html#foo', 'pympp/prediction/predict.py')},
+            'pympp.process': {'pympp.process.foo': ('process.html#foo', 'pympp/process.py')}}}
