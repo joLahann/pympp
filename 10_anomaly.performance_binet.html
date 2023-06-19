@@ -1,0 +1,3149 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.361">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>pympp - BINET Performance</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="styles.css">
+<meta property="og:title" content="pympp - BINET Performance">
+<meta property="og:image" content="https://joLahann.github.io/pympp/10_anomaly.performance_binet_files/figure-html/cell-31-output-1.png">
+<meta property="og:site-name" content="pympp">
+<meta property="og:image:height" content="589">
+<meta property="og:image:width" content="1309">
+<meta name="twitter:title" content="pympp - BINET Performance">
+<meta name="twitter:image" content="https://joLahann.github.io/pympp/10_anomaly.performance_binet_files/figure-html/cell-31-output-1.png">
+<meta name="twitter:image-height" content="589">
+<meta name="twitter:image-width" content="1309">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">pympp</span>
+    </a>
+  </div>
+        <div class="quarto-navbar-tools ms-auto">
+</div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./06_anomaly.detect.html">Anomaly Detection</a></li><li class="breadcrumb-item"><a href="./10_anomaly.performance_binet.html">BINET Performance</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">pympp</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00_logs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Logs</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_process.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Process</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Prediction</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./prediction.predict.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Predict</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_prediction.models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Baseline implementations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_prediction.mppn.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">MPPN</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_prediction.eval.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prediction Evaluation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Anomaly Detection</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_anomaly.detect.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Anomaly Detection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_anomaly.training.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Training</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_anomaly.heuristics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Anomaly Detection Heuristics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09_anomaly.performance_pdc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">PDC Performance</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10_anomaly.performance_binet.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">BINET Performance</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#load-logs-and-models" id="toc-load-logs-and-models" class="nav-link active" data-scroll-target="#load-logs-and-models">Load Logs and Models</a></li>
+  <li><a href="#best-heuristic---bayesian-optimization" id="toc-best-heuristic---bayesian-optimization" class="nav-link" data-scroll-target="#best-heuristic---bayesian-optimization">Best Heuristic - Bayesian Optimization</a></li>
+  <li><a href="#other-heuristics" id="toc-other-heuristics" class="nav-link" data-scroll-target="#other-heuristics">Other Heuristics</a></li>
+  <li><a href="#anomaly-types" id="toc-anomaly-types" class="nav-link" data-scroll-target="#anomaly-types">Anomaly Types</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/joLahann/pympp/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">BINET Performance</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.basics <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pympp.process <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pympp.anomaly.detect <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pympp.anomaly.heuristics <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> f1_score,accuracy_score,precision_score,recall_score</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.tabular.model <span class="im">import</span> get_emb_sz</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bayes_opt <span class="im">import</span> BayesianOptimization</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="load-logs-and-models" class="level2">
+<h2 class="anchored" data-anchor-id="load-logs-and-models">Load Logs and Models</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>logs <span class="op">=</span> [Path(fn).stem[:<span class="op">-</span><span class="dv">4</span>] <span class="cf">for</span> fn <span class="kw">in</span> progress_bar(glob.glob(<span class="ss">f'../data/logs/csv/dapnn_ds/binet_logs/*'</span>))]</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(logs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+    <div>
+      <progress value="40" class="" max="40" style="width:300px; height:20px; vertical-align: middle;"></progress>
+      100.00% [40/40 00:00&lt;00:00]
+    </div>
+    
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>40</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>learner_path<span class="op">=</span><span class="ss">f'models/binet_logs/'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> load_pred_model(learner_path,train_log_path,log_name,cols<span class="op">=</span>[<span class="st">'activity'</span>]):</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> <span class="ss">f'</span><span class="sc">{</span>learner_path<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>log_name<span class="sc">}</span><span class="ss">_vocab.p'</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(p, <span class="st">'rb'</span>) <span class="im">as</span> fp:</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        categorify <span class="op">=</span> pickle.load(fp)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    log <span class="op">=</span> import_log(train_log_path)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    o <span class="op">=</span> process_test(log,categorify,cols)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    dls<span class="op">=</span>o.get_dls()</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    loss<span class="op">=</span>partial(multi_loss_sum,o)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    emb_szs <span class="op">=</span> get_emb_sz(o)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    m<span class="op">=</span>MultivariateModel(emb_szs)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    learn<span class="op">=</span>Learner(dls, m, path<span class="op">=</span>learner_path, model_dir<span class="op">=</span><span class="st">'.'</span>, loss_func<span class="op">=</span>loss, metrics<span class="op">=</span>get_metrics(o))</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    learn.load(log_name,with_opt<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    m<span class="op">=</span>learn.model.cuda()</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> m, categorify</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> multivariate_anomaly_score(res,o,idx,cols):</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    score_df<span class="op">=</span>pd.DataFrame()</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> cidx,_ <span class="kw">in</span> <span class="bu">enumerate</span>(cols):</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        sm <span class="op">=</span> nn.Softmax(dim<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        p <span class="op">=</span> sm(res[cidx].cpu())</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>        pred <span class="op">=</span> p.<span class="bu">max</span>(<span class="dv">1</span>)[<span class="dv">0</span>]</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> o.items[cols[cidx]].iloc[idx].values</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>        truth<span class="op">=</span>p[<span class="bu">list</span>(<span class="bu">range</span>(<span class="bu">len</span>(y))),y]</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>        score <span class="op">=</span> ((pred <span class="op">-</span> truth) <span class="op">/</span> pred).tolist()</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>        score_df[cols[cidx]] <span class="op">=</span> score</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    score_df[<span class="st">'trace_id'</span>]<span class="op">=</span>o.items.index.to_series().iloc[idx].values</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> score_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_score_df(log_name):</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    fn<span class="op">=</span><span class="ss">f'./data/logs/csv/dapnn_ds/binet_logs/</span><span class="sc">{</span>log_name<span class="sc">}</span><span class="ss">.csv.gz'</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    cols<span class="op">=</span> get_attr(attr_dict,log_name)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    training_log_path<span class="op">=</span><span class="ss">f'./data/logs/csv/dapnn_ds/binet_logs/</span><span class="sc">{</span>log_name<span class="sc">}</span><span class="ss">.csv.gz'</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    m2, categorify <span class="op">=</span> load_pred_model(learner_path,training_log_path,log_name,cols<span class="op">=</span>cols)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    log <span class="op">=</span> import_log(fn,cols)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    o <span class="op">=</span> process_test(log,categorify,cols)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    res,idx<span class="op">=</span>predict_next_step(o,m2)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    score_df<span class="op">=</span>multivariate_anomaly_score(res,o,idx,cols)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> score_df,cols,o</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>log_name<span class="op">=</span> <span class="st">'bpic15-0.3-4'</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>score_df,cols,o <span class="op">=</span> get_score_df(log_name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/tmp/ipykernel_3414969/1108395208.py:2: DtypeWarning: Columns (17) have mixed types.Specify dtype option on import or set low_memory=False.
+  score_df,cols,o = get_score_df(log_name)
+/home/lahann/mambaforge/envs/pympp/lib/python3.8/site-packages/IPython/core/interactiveshell.py:3398: DtypeWarning: Columns (17) have mixed types.Specify dtype option on import or set low_memory=False.
+  exec(code_obj, self.user_global_ns, self.user_ns)</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>max_error_cases <span class="op">=</span> score_df.groupby(<span class="st">'trace_id'</span>).<span class="bu">max</span>()</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>y_true <span class="op">=</span>o.items.groupby(o.items.index)[<span class="st">'anomaly'</span>].last().to_numpy() <span class="op">!=</span> <span class="st">'normal'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>all_cols <span class="op">=</span> np.unique([i <span class="cf">for</span> j <span class="kw">in</span> attr_dict.values() <span class="cf">for</span> i <span class="kw">in</span> j ])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="best-heuristic---bayesian-optimization" class="level2">
+<h2 class="anchored" data-anchor-id="best-heuristic---bayesian-optimization">Best Heuristic - Bayesian Optimization</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>all_cols <span class="op">=</span>[<span class="st">'activity'</span>, <span class="st">'user'</span>, <span class="st">'day'</span>, <span class="st">'country'</span>, <span class="st">'company'</span>,<span class="st">'org:resource'</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> optimize(<span class="op">**</span>settings):</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    y_pred <span class="op">=</span>(np.array([(max_error_cases[c]<span class="op">&gt;</span>settings[c]).tolist() <span class="cf">for</span> c <span class="kw">in</span> cols]).<span class="bu">max</span>(axis<span class="op">=</span><span class="dv">0</span>))   </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (f1_score(y_pred,y_true))</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Bounded region of parameter space</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>pbounds <span class="op">=</span> {c:(<span class="fl">0.9</span>,<span class="fl">1.0</span>) <span class="cf">for</span> c <span class="kw">in</span> cols}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Only run this if you want to recreate the best_th_df, takes arround 3h</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> []</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>n_iter <span class="op">=</span> <span class="dv">500</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> log_name <span class="kw">in</span> progress_bar(logs):</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    score_df,cols,o <span class="op">=</span> get_score_df(log_name)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    max_error_cases <span class="op">=</span> score_df.groupby(<span class="st">'trace_id'</span>).<span class="bu">max</span>()</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    y_true <span class="op">=</span>o.items.groupby(o.items.index)[<span class="st">'anomaly'</span>].last().to_numpy() <span class="op">!=</span> <span class="st">'normal'</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    pbounds <span class="op">=</span> {c:(<span class="fl">0.8</span>,<span class="fl">1.0</span>) <span class="cf">for</span> c <span class="kw">in</span> cols}</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    optimizer <span class="op">=</span> BayesianOptimization(</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>        f<span class="op">=</span>optimize,</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>        pbounds<span class="op">=</span>pbounds,</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>        verbose<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>        random_state<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    optimizer.maximize(init_points<span class="op">=</span><span class="dv">20</span>, n_iter<span class="op">=</span>n_iter) </span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    res.append([log_name,optimizer.<span class="bu">max</span>[<span class="st">'target'</span>]]<span class="op">+</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>               [optimizer.<span class="bu">max</span>[<span class="st">'params'</span>][c] <span class="cf">if</span> c <span class="kw">in</span> cols <span class="cf">else</span> <span class="fl">0.0</span> <span class="cf">for</span> c <span class="kw">in</span> all_cols ])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+    <div>
+      <progress value="40" class="" max="40" style="width:300px; height:20px; vertical-align: middle;"></progress>
+      100.00% [40/40 00:57&lt;00:00]
+    </div>
+    
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/tmp/ipykernel_3414969/1864857608.py:4: DtypeWarning: Columns (17) have mixed types.Specify dtype option on import or set low_memory=False.
+  score_df,cols,o = get_score_df(log_name)
+/tmp/ipykernel_3414969/1864857608.py:4: DtypeWarning: Columns (17) have mixed types.Specify dtype option on import or set low_memory=False.
+  score_df,cols,o = get_score_df(log_name)
+/home/lahann/mambaforge/envs/pympp/lib/python3.8/site-packages/IPython/core/interactiveshell.py:3398: DtypeWarning: Columns (17) have mixed types.Specify dtype option on import or set low_memory=False.
+  exec(code_obj, self.user_global_ns, self.user_ns)
+/tmp/ipykernel_3414969/1864857608.py:4: DtypeWarning: Columns (17) have mixed types.Specify dtype option on import or set low_memory=False.
+  score_df,cols,o = get_score_df(log_name)
+/home/lahann/mambaforge/envs/pympp/lib/python3.8/site-packages/IPython/core/interactiveshell.py:3398: DtypeWarning: Columns (17) have mixed types.Specify dtype option on import or set low_memory=False.
+  exec(code_obj, self.user_global_ns, self.user_ns)
+/tmp/ipykernel_3414969/1864857608.py:4: DtypeWarning: Columns (17) have mixed types.Specify dtype option on import or set low_memory=False.
+  score_df,cols,o = get_score_df(log_name)
+/home/lahann/mambaforge/envs/pympp/lib/python3.8/site-packages/IPython/core/interactiveshell.py:3398: DtypeWarning: Columns (17) have mixed types.Specify dtype option on import or set low_memory=False.
+  exec(code_obj, self.user_global_ns, self.user_ns)
+/tmp/ipykernel_3414969/1864857608.py:4: DtypeWarning: Columns (17) have mixed types.Specify dtype option on import or set low_memory=False.
+  score_df,cols,o = get_score_df(log_name)
+/home/lahann/mambaforge/envs/pympp/lib/python3.8/site-packages/IPython/core/interactiveshell.py:3398: DtypeWarning: Columns (17) have mixed types.Specify dtype option on import or set low_memory=False.
+  exec(code_obj, self.user_global_ns, self.user_ns)</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>best_th_df <span class="op">=</span> pd.DataFrame(res,columns<span class="op">=</span>[<span class="st">'log_name'</span>,<span class="st">'best F1 Score'</span>,<span class="op">*</span>all_cols])</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>best_th_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">log_name</th>
+<th data-quarto-table-cell-role="th">best F1 Score</th>
+<th data-quarto-table-cell-role="th">activity</th>
+<th data-quarto-table-cell-role="th">user</th>
+<th data-quarto-table-cell-role="th">day</th>
+<th data-quarto-table-cell-role="th">country</th>
+<th data-quarto-table-cell-role="th">company</th>
+<th data-quarto-table-cell-role="th">org:resource</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>bpic15-0.3-4</td>
+<td>0.451471</td>
+<td>0.944065</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.818468</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>large-0.3-4</td>
+<td>0.937398</td>
+<td>0.940005</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>0.999750</td>
+<td>0.981446</td>
+<td>0.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>small-0.3-4</td>
+<td>0.961668</td>
+<td>0.873245</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>0.931696</td>
+<td>1.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>bpic13-0.3-3</td>
+<td>0.419858</td>
+<td>0.824835</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.993919</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>medium-0.3-3</td>
+<td>0.930289</td>
+<td>0.823992</td>
+<td>0.972513</td>
+<td>0.964294</td>
+<td>0.960638</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>medium-0.3-1</td>
+<td>0.975855</td>
+<td>0.960149</td>
+<td>0.993652</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>bpic17-0.3-1</td>
+<td>0.484787</td>
+<td>0.893105</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>1.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>wide-0.3-3</td>
+<td>0.926388</td>
+<td>0.847682</td>
+<td>1.000000</td>
+<td>0.946180</td>
+<td>0.995507</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>large-0.3-2</td>
+<td>0.951917</td>
+<td>0.950029</td>
+<td>0.949633</td>
+<td>0.997772</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>bpic17-0.3-2</td>
+<td>0.838753</td>
+<td>0.884222</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.991578</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">10</td>
+<td>bpic13-0.3-1</td>
+<td>0.468346</td>
+<td>0.824835</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.993919</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">11</td>
+<td>small-0.3-3</td>
+<td>0.932209</td>
+<td>0.941794</td>
+<td>0.960505</td>
+<td>0.932191</td>
+<td>0.948540</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12</td>
+<td>bpic12-0.3-1</td>
+<td>0.717622</td>
+<td>0.975623</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">13</td>
+<td>huge-0.3-2</td>
+<td>0.904886</td>
+<td>0.950029</td>
+<td>0.949633</td>
+<td>0.997772</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">14</td>
+<td>p2p-0.3-3</td>
+<td>0.957556</td>
+<td>0.931714</td>
+<td>0.940759</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">15</td>
+<td>wide-0.3-4</td>
+<td>0.887997</td>
+<td>0.885476</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">16</td>
+<td>huge-0.3-1</td>
+<td>0.984322</td>
+<td>0.960149</td>
+<td>0.993652</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">17</td>
+<td>gigantic-0.3-1</td>
+<td>0.907391</td>
+<td>0.937300</td>
+<td>0.966925</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18</td>
+<td>p2p-0.3-1</td>
+<td>0.993802</td>
+<td>0.975278</td>
+<td>0.978921</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">19</td>
+<td>wide-0.3-2</td>
+<td>0.958913</td>
+<td>0.950029</td>
+<td>0.949633</td>
+<td>0.997772</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">20</td>
+<td>bpic15-0.3-2</td>
+<td>0.436090</td>
+<td>0.944065</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.818468</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">21</td>
+<td>large-0.3-1</td>
+<td>0.987251</td>
+<td>0.960149</td>
+<td>0.993652</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">22</td>
+<td>bpic15-0.3-1</td>
+<td>0.490875</td>
+<td>0.944065</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.818468</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">23</td>
+<td>gigantic-0.3-3</td>
+<td>0.936312</td>
+<td>0.895252</td>
+<td>1.000000</td>
+<td>0.976421</td>
+<td>1.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">24</td>
+<td>medium-0.3-4</td>
+<td>0.931641</td>
+<td>0.940106</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>0.984717</td>
+<td>1.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">25</td>
+<td>medium-0.3-2</td>
+<td>0.935906</td>
+<td>0.950029</td>
+<td>0.949633</td>
+<td>0.997772</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">26</td>
+<td>huge-0.3-4</td>
+<td>0.887196</td>
+<td>0.896746</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">27</td>
+<td>gigantic-0.3-4</td>
+<td>0.879924</td>
+<td>0.926454</td>
+<td>1.000000</td>
+<td>0.998477</td>
+<td>0.981558</td>
+<td>1.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">28</td>
+<td>bpic13-0.3-2</td>
+<td>0.485372</td>
+<td>0.800000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>1.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">29</td>
+<td>p2p-0.3-2</td>
+<td>0.975610</td>
+<td>0.950029</td>
+<td>0.949633</td>
+<td>0.997772</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">30</td>
+<td>bpic15-0.3-3</td>
+<td>0.474283</td>
+<td>0.944065</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.818468</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">31</td>
+<td>bpic15-0.3-5</td>
+<td>0.439946</td>
+<td>0.944065</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.818468</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">32</td>
+<td>large-0.3-3</td>
+<td>0.892308</td>
+<td>0.867383</td>
+<td>1.000000</td>
+<td>0.978184</td>
+<td>0.996034</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">33</td>
+<td>small-0.3-2</td>
+<td>0.973026</td>
+<td>0.950029</td>
+<td>0.949633</td>
+<td>0.997772</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">34</td>
+<td>huge-0.3-3</td>
+<td>0.824321</td>
+<td>0.960149</td>
+<td>0.938465</td>
+<td>0.862685</td>
+<td>0.993652</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">35</td>
+<td>wide-0.3-1</td>
+<td>0.991540</td>
+<td>0.960149</td>
+<td>0.993652</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">36</td>
+<td>paper-0.3-1</td>
+<td>0.999659</td>
+<td>0.883404</td>
+<td>0.944065</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">37</td>
+<td>small-0.3-1</td>
+<td>0.996956</td>
+<td>0.960149</td>
+<td>0.993652</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">38</td>
+<td>gigantic-0.3-2</td>
+<td>0.884754</td>
+<td>0.950029</td>
+<td>0.949633</td>
+<td>0.997772</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">39</td>
+<td>p2p-0.3-4</td>
+<td>0.981248</td>
+<td>0.946049</td>
+<td>0.995983</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>0.957152</td>
+<td>0.000000</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="other-heuristics" class="level2">
+<h2 class="anchored" data-anchor-id="other-heuristics">Other Heuristics</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> multi_attr_f1_score(y_true,max_error_cases,ths):</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    y_pred <span class="op">=</span>(np.array([(max_error_cases[c]<span class="op">&gt;</span>ths[c]).tolist() <span class="cf">for</span> c <span class="kw">in</span> cols]).<span class="bu">max</span>(axis<span class="op">=</span><span class="dv">0</span>))   </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> f1_score(y_pred,y_true)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> threshold_anomaly_ratio_df(max_error_cases,min_th<span class="op">=</span> <span class="fl">0.0</span>):</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> []</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> col <span class="kw">in</span> cols:</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>        ths <span class="op">=</span> max_error_cases[col].unique()</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>        ths <span class="op">=</span> ths[ths <span class="op">&gt;</span>min_th]</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>        r <span class="op">=</span> np.array([<span class="bu">sum</span>(max_error_cases[col] <span class="op">&gt;</span>th) <span class="cf">for</span> th <span class="kw">in</span> ths])<span class="op">/</span><span class="bu">len</span>(max_error_cases)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>        res<span class="op">+=</span><span class="bu">zip</span>(ths,r,[col]<span class="op">*</span><span class="bu">len</span>(ths))</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.DataFrame(res,columns<span class="op">=</span>[<span class="st">'Th'</span>,<span class="st">'Anomaly Ratio'</span>,<span class="st">'Col'</span>]) </span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> threshold_anomaly_ratio_df_fixed(max_error_cases):</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    ths <span class="op">=</span>np.arange(<span class="dv">100</span>)<span class="op">*</span><span class="fl">0.001</span><span class="op">+</span><span class="fl">0.9</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    res<span class="op">=</span>[]</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> col <span class="kw">in</span> cols:</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>        r <span class="op">=</span> np.array([<span class="bu">sum</span>(max_error_cases[col] <span class="op">&gt;</span>th) <span class="cf">for</span> th <span class="kw">in</span> ths])<span class="op">/</span><span class="bu">len</span>(max_error_cases)</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>        res<span class="op">+=</span><span class="bu">zip</span>(ths,r,[col]<span class="op">*</span><span class="bu">len</span>(ths))</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.DataFrame(res,columns<span class="op">=</span>[<span class="st">'Th'</span>,<span class="st">'Anomaly Ratio'</span>,<span class="st">'Col'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>heuristics <span class="op">=</span> [partial(get_ratio_th,<span class="fl">0.5</span>),elbow_heuristic,</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>              partial(get_fixed_heuristic,<span class="fl">0.98</span>),get_lowest_plateau_heuristic]</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>heuristic_names <span class="op">=</span> [<span class="st">'r_0.5'</span>,<span class="st">'e_down'</span>,<span class="st">'e_up'</span>,<span class="st">'fix'</span>,<span class="st">'lp_min'</span>,<span class="st">'lp_mean'</span>,<span class="st">'lp_max'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>log_name<span class="op">=</span><span class="st">'paper-0.3-1'</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>score_df,cols,o <span class="op">=</span> get_score_df(log_name)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>max_error_cases <span class="op">=</span> score_df.groupby(<span class="st">'trace_id'</span>).<span class="bu">max</span>()</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>y_true <span class="op">=</span>o.items.groupby(o.items.index)[<span class="st">'anomaly'</span>].last().to_numpy() <span class="op">!=</span> <span class="st">'normal'</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span>threshold_anomaly_ratio_df_fixed(max_error_cases)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>multi_attr_f1_score(y_true,max_error_cases,{<span class="st">'activity'</span>:<span class="fl">0.945</span>,<span class="st">'user'</span>:<span class="fl">0.984</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>0.9962341663813762</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>get_lowest_plateau_heuristic(df[df[<span class="st">'Col'</span>]<span class="op">==</span><span class="st">'user'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>(Th                0.985
+ Anomaly Ratio    0.1862
+ Col                user
+ Name: 185, dtype: object,
+ Th                0.985
+ Anomaly Ratio    0.1862
+ Col                user
+ Name: 185, dtype: object,
+ Th                0.985
+ Anomaly Ratio    0.1862
+ Col                user
+ Name: 185, dtype: object)</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>test <span class="op">=</span> df[df[<span class="st">'Col'</span>]<span class="op">==</span><span class="st">'activity'</span>].copy()</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>test.index <span class="op">=</span> test[<span class="st">'Th'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>get_lowest_plateau_heuristic(test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>(Th                  0.901
+ Anomaly Ratio      0.2462
+ Col              activity
+ Name: 0.901, dtype: object,
+ Th                  0.944
+ Anomaly Ratio      0.2462
+ Col              activity
+ Name: 0.9440000000000001, dtype: object,
+ Th                  0.988
+ Anomaly Ratio      0.2462
+ Col              activity
+ Name: 0.988, dtype: object)</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>log_name<span class="op">=</span><span class="st">'paper-0.3-1'</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>score_df,cols,o <span class="op">=</span> get_score_df(log_name)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>max_error_cases <span class="op">=</span> score_df.groupby(<span class="st">'trace_id'</span>).<span class="bu">max</span>()</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>y_true <span class="op">=</span>o.items.groupby(o.items.index)[<span class="st">'anomaly'</span>].last().to_numpy() <span class="op">!=</span> <span class="st">'normal'</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span>threshold_anomaly_ratio_df_fixed(max_error_cases)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="co">#df =threshold_anomaly_ratio_df(max_error_cases)</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>h_ths <span class="op">=</span> {col:[i <span class="cf">for</span> j <span class="kw">in</span> [[k.Th <span class="cf">for</span> k <span class="kw">in</span> listify(h(df[df[<span class="st">'Col'</span>]<span class="op">==</span>col]))] <span class="cf">for</span> h <span class="kw">in</span> heuristics] <span class="cf">for</span> i <span class="kw">in</span> j] <span class="cf">for</span> col <span class="kw">in</span> cols}</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>h_ths_df <span class="op">=</span> pd.DataFrame(h_ths,index<span class="op">=</span>heuristic_names).transpose()</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>h_ths_df[<span class="st">'Log'</span>] <span class="op">=</span> log_name</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>h_ths_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">r_0.5</th>
+<th data-quarto-table-cell-role="th">e_down</th>
+<th data-quarto-table-cell-role="th">e_up</th>
+<th data-quarto-table-cell-role="th">fix</th>
+<th data-quarto-table-cell-role="th">lp_min</th>
+<th data-quarto-table-cell-role="th">lp_mean</th>
+<th data-quarto-table-cell-role="th">lp_max</th>
+<th data-quarto-table-cell-role="th">Log</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">activity</td>
+<td>0.9</td>
+<td>0.992</td>
+<td>0.990</td>
+<td>0.901</td>
+<td>0.901</td>
+<td>0.944</td>
+<td>0.988</td>
+<td>paper-0.3-1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">user</td>
+<td>0.9</td>
+<td>0.912</td>
+<td>0.911</td>
+<td>0.900</td>
+<td>0.985</td>
+<td>0.985</td>
+<td>0.985</td>
+<td>paper-0.3-1</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>f1_scores<span class="op">=</span>{h:multi_attr_f1_score(y_true,max_error_cases,h_ths_df[h]) <span class="cf">for</span> h <span class="kw">in</span> heuristic_names}</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>f1_scores</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>{'r_0.5': 0.8982219497240956,
+ 'e_down': 0.9602836879432624,
+ 'e_up': 0.8998459167950694,
+ 'fix': 0.8982219497240956,
+ 'lp_min': 0.9962341663813762,
+ 'lp_mean': 0.9962341663813762,
+ 'lp_max': 0.9962341663813762}</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> []</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>res_ths <span class="op">=</span> []</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> log_name <span class="kw">in</span> progress_bar(logs):</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    score_df,cols,o <span class="op">=</span> get_score_df(log_name)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    max_error_cases <span class="op">=</span> score_df.groupby(<span class="st">'trace_id'</span>).<span class="bu">max</span>()</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    y_true <span class="op">=</span>o.items.groupby(o.items.index)[<span class="st">'anomaly'</span>].last().to_numpy() <span class="op">!=</span> <span class="st">'normal'</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span>threshold_anomaly_ratio_df_fixed(max_error_cases)</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">#df =threshold_anomaly_ratio_df(max_error_cases)</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    h_ths <span class="op">=</span> {col:[i <span class="cf">for</span> j <span class="kw">in</span> [[k.Th <span class="cf">for</span> k <span class="kw">in</span> listify(h(df[df[<span class="st">'Col'</span>]<span class="op">==</span>col]))] <span class="cf">for</span> h <span class="kw">in</span> heuristics] <span class="cf">for</span> i <span class="kw">in</span> j] <span class="cf">for</span> col <span class="kw">in</span> cols}</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    h_ths_df <span class="op">=</span> pd.DataFrame(h_ths,index<span class="op">=</span>heuristic_names).transpose()</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>    h_ths_df[<span class="st">'Log'</span>] <span class="op">=</span> log_name</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>    res_ths<span class="op">+=</span>h_ths_df.values.tolist()</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>    f1_scores<span class="op">=</span>{h:multi_attr_f1_score(y_true,max_error_cases,h_ths_df[h]) <span class="cf">for</span> h <span class="kw">in</span> heuristic_names}</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>    f1_scores[<span class="st">'Log'</span>]<span class="op">=</span> log_name</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>    res.append(f1_scores)</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>heuristic_th_df <span class="op">=</span> pd.DataFrame(res)</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>heuristic_th_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+    <div>
+      <progress value="40" class="" max="40" style="width:300px; height:20px; vertical-align: middle;"></progress>
+      100.00% [40/40 00:59&lt;00:00]
+    </div>
+    
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/tmp/ipykernel_3414969/2538357640.py:4: DtypeWarning: Columns (17) have mixed types.Specify dtype option on import or set low_memory=False.
+  score_df,cols,o = get_score_df(log_name)
+/home/lahann/mambaforge/envs/pympp/lib/python3.8/site-packages/IPython/core/interactiveshell.py:3398: DtypeWarning: Columns (17) have mixed types.Specify dtype option on import or set low_memory=False.
+  exec(code_obj, self.user_global_ns, self.user_ns)
+/tmp/ipykernel_3414969/2538357640.py:4: DtypeWarning: Columns (17) have mixed types.Specify dtype option on import or set low_memory=False.
+  score_df,cols,o = get_score_df(log_name)
+/home/lahann/mambaforge/envs/pympp/lib/python3.8/site-packages/IPython/core/interactiveshell.py:3398: DtypeWarning: Columns (17) have mixed types.Specify dtype option on import or set low_memory=False.
+  exec(code_obj, self.user_global_ns, self.user_ns)
+/tmp/ipykernel_3414969/2538357640.py:4: DtypeWarning: Columns (17) have mixed types.Specify dtype option on import or set low_memory=False.
+  score_df,cols,o = get_score_df(log_name)
+/home/lahann/mambaforge/envs/pympp/lib/python3.8/site-packages/IPython/core/interactiveshell.py:3398: DtypeWarning: Columns (17) have mixed types.Specify dtype option on import or set low_memory=False.
+  exec(code_obj, self.user_global_ns, self.user_ns)
+/tmp/ipykernel_3414969/2538357640.py:4: DtypeWarning: Columns (17) have mixed types.Specify dtype option on import or set low_memory=False.
+  score_df,cols,o = get_score_df(log_name)
+/home/lahann/mambaforge/envs/pympp/lib/python3.8/site-packages/IPython/core/interactiveshell.py:3398: DtypeWarning: Columns (17) have mixed types.Specify dtype option on import or set low_memory=False.
+  exec(code_obj, self.user_global_ns, self.user_ns)
+/tmp/ipykernel_3414969/2538357640.py:4: DtypeWarning: Columns (17) have mixed types.Specify dtype option on import or set low_memory=False.
+  score_df,cols,o = get_score_df(log_name)
+/home/lahann/mambaforge/envs/pympp/lib/python3.8/site-packages/IPython/core/interactiveshell.py:3398: DtypeWarning: Columns (17) have mixed types.Specify dtype option on import or set low_memory=False.
+  exec(code_obj, self.user_global_ns, self.user_ns)</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">r_0.5</th>
+<th data-quarto-table-cell-role="th">e_down</th>
+<th data-quarto-table-cell-role="th">e_up</th>
+<th data-quarto-table-cell-role="th">fix</th>
+<th data-quarto-table-cell-role="th">lp_min</th>
+<th data-quarto-table-cell-role="th">lp_mean</th>
+<th data-quarto-table-cell-role="th">lp_max</th>
+<th data-quarto-table-cell-role="th">Log</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>0.469136</td>
+<td>0.470405</td>
+<td>0.450185</td>
+<td>0.451471</td>
+<td>0.469498</td>
+<td>0.469498</td>
+<td>0.469498</td>
+<td>bpic15-0.3-4</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>0.683812</td>
+<td>0.768873</td>
+<td>0.912346</td>
+<td>0.683812</td>
+<td>0.907368</td>
+<td>0.907923</td>
+<td>0.908979</td>
+<td>large-0.3-4</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>0.709933</td>
+<td>0.950145</td>
+<td>0.943371</td>
+<td>0.709933</td>
+<td>0.943084</td>
+<td>0.943084</td>
+<td>0.943084</td>
+<td>small-0.3-4</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>0.391753</td>
+<td>0.395604</td>
+<td>0.397590</td>
+<td>0.377088</td>
+<td>0.421603</td>
+<td>0.421603</td>
+<td>0.419580</td>
+<td>bpic13-0.3-3</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>0.781832</td>
+<td>0.797542</td>
+<td>0.830393</td>
+<td>0.781832</td>
+<td>0.870879</td>
+<td>0.870879</td>
+<td>0.870879</td>
+<td>medium-0.3-3</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>0.891285</td>
+<td>0.881666</td>
+<td>0.912883</td>
+<td>0.891285</td>
+<td>0.936762</td>
+<td>0.936674</td>
+<td>0.935889</td>
+<td>medium-0.3-1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>0.544370</td>
+<td>0.468426</td>
+<td>0.525774</td>
+<td>0.459481</td>
+<td>0.459481</td>
+<td>0.459481</td>
+<td>0.461569</td>
+<td>bpic17-0.3-1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>0.758085</td>
+<td>0.916066</td>
+<td>0.806943</td>
+<td>0.758085</td>
+<td>0.889936</td>
+<td>0.889936</td>
+<td>0.890236</td>
+<td>wide-0.3-3</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>0.809877</td>
+<td>0.892727</td>
+<td>0.876196</td>
+<td>0.809877</td>
+<td>0.978667</td>
+<td>0.978667</td>
+<td>0.978667</td>
+<td>large-0.3-2</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>0.694332</td>
+<td>0.669278</td>
+<td>0.858127</td>
+<td>0.670450</td>
+<td>0.668974</td>
+<td>0.668974</td>
+<td>0.668974</td>
+<td>bpic17-0.3-2</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">10</td>
+<td>0.449840</td>
+<td>0.437579</td>
+<td>0.440025</td>
+<td>0.435620</td>
+<td>0.472403</td>
+<td>0.472403</td>
+<td>0.472403</td>
+<td>bpic13-0.3-1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">11</td>
+<td>0.905615</td>
+<td>0.965012</td>
+<td>0.981543</td>
+<td>0.905615</td>
+<td>0.986047</td>
+<td>0.988345</td>
+<td>0.988345</td>
+<td>small-0.3-3</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12</td>
+<td>0.659213</td>
+<td>0.694447</td>
+<td>0.721668</td>
+<td>0.620128</td>
+<td>0.689842</td>
+<td>0.687652</td>
+<td>0.684029</td>
+<td>bpic12-0.3-1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">13</td>
+<td>0.805017</td>
+<td>0.916031</td>
+<td>0.941257</td>
+<td>0.805017</td>
+<td>0.939937</td>
+<td>0.939937</td>
+<td>0.939937</td>
+<td>huge-0.3-2</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">14</td>
+<td>0.848600</td>
+<td>0.914738</td>
+<td>0.871881</td>
+<td>0.848600</td>
+<td>0.976789</td>
+<td>0.976789</td>
+<td>0.976789</td>
+<td>p2p-0.3-3</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">15</td>
+<td>0.770405</td>
+<td>0.912192</td>
+<td>0.912023</td>
+<td>0.770405</td>
+<td>0.948236</td>
+<td>0.948236</td>
+<td>0.948236</td>
+<td>wide-0.3-4</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">16</td>
+<td>0.837684</td>
+<td>0.868746</td>
+<td>0.947512</td>
+<td>0.837684</td>
+<td>0.975577</td>
+<td>0.975234</td>
+<td>0.975234</td>
+<td>huge-0.3-1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">17</td>
+<td>0.813358</td>
+<td>0.781813</td>
+<td>0.928790</td>
+<td>0.813358</td>
+<td>0.790813</td>
+<td>0.790813</td>
+<td>0.790385</td>
+<td>gigantic-0.3-1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18</td>
+<td>0.913346</td>
+<td>0.991741</td>
+<td>0.963235</td>
+<td>0.913346</td>
+<td>0.957545</td>
+<td>0.957173</td>
+<td>0.957143</td>
+<td>p2p-0.3-1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">19</td>
+<td>0.856201</td>
+<td>0.961786</td>
+<td>0.926232</td>
+<td>0.856201</td>
+<td>0.972232</td>
+<td>0.972232</td>
+<td>0.972232</td>
+<td>wide-0.3-2</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">20</td>
+<td>0.454545</td>
+<td>0.436911</td>
+<td>0.436090</td>
+<td>0.436090</td>
+<td>0.441261</td>
+<td>0.441261</td>
+<td>0.441261</td>
+<td>bpic15-0.3-2</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">21</td>
+<td>0.857063</td>
+<td>0.882013</td>
+<td>0.865281</td>
+<td>0.857063</td>
+<td>0.948518</td>
+<td>0.949672</td>
+<td>0.951158</td>
+<td>large-0.3-1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">22</td>
+<td>0.518569</td>
+<td>0.500963</td>
+<td>0.493671</td>
+<td>0.490875</td>
+<td>0.509521</td>
+<td>0.509521</td>
+<td>0.509521</td>
+<td>bpic15-0.3-1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">23</td>
+<td>0.718496</td>
+<td>0.772625</td>
+<td>0.778030</td>
+<td>0.718496</td>
+<td>0.857563</td>
+<td>0.857563</td>
+<td>0.857563</td>
+<td>gigantic-0.3-3</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">24</td>
+<td>0.775132</td>
+<td>0.838451</td>
+<td>0.869688</td>
+<td>0.779234</td>
+<td>0.893204</td>
+<td>0.893204</td>
+<td>0.893204</td>
+<td>medium-0.3-4</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">25</td>
+<td>0.815190</td>
+<td>0.872786</td>
+<td>0.885749</td>
+<td>0.815190</td>
+<td>0.925835</td>
+<td>0.925835</td>
+<td>0.926812</td>
+<td>medium-0.3-2</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">26</td>
+<td>0.721685</td>
+<td>0.810028</td>
+<td>0.847239</td>
+<td>0.721685</td>
+<td>0.920584</td>
+<td>0.921463</td>
+<td>0.922636</td>
+<td>huge-0.3-4</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">27</td>
+<td>0.630247</td>
+<td>0.664441</td>
+<td>0.632649</td>
+<td>0.629715</td>
+<td>0.771056</td>
+<td>0.771056</td>
+<td>0.771280</td>
+<td>gigantic-0.3-4</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">28</td>
+<td>0.489189</td>
+<td>0.484236</td>
+<td>0.492133</td>
+<td>0.469314</td>
+<td>0.503036</td>
+<td>0.503036</td>
+<td>0.503036</td>
+<td>bpic13-0.3-2</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">29</td>
+<td>0.867094</td>
+<td>0.980174</td>
+<td>0.975421</td>
+<td>0.867094</td>
+<td>0.961525</td>
+<td>0.961525</td>
+<td>0.961525</td>
+<td>p2p-0.3-2</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">30</td>
+<td>0.499408</td>
+<td>0.483711</td>
+<td>0.478950</td>
+<td>0.474283</td>
+<td>0.500573</td>
+<td>0.500573</td>
+<td>0.500573</td>
+<td>bpic15-0.3-3</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">31</td>
+<td>0.471927</td>
+<td>0.442779</td>
+<td>0.438893</td>
+<td>0.439946</td>
+<td>0.463188</td>
+<td>0.463188</td>
+<td>0.463519</td>
+<td>bpic15-0.3-5</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">32</td>
+<td>0.642612</td>
+<td>0.700446</td>
+<td>0.662090</td>
+<td>0.642612</td>
+<td>0.949521</td>
+<td>0.949521</td>
+<td>0.948849</td>
+<td>large-0.3-3</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">33</td>
+<td>0.853288</td>
+<td>0.880489</td>
+<td>0.858198</td>
+<td>0.853288</td>
+<td>0.959727</td>
+<td>0.959727</td>
+<td>0.959727</td>
+<td>small-0.3-2</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">34</td>
+<td>0.744374</td>
+<td>0.799891</td>
+<td>0.820757</td>
+<td>0.744374</td>
+<td>0.948801</td>
+<td>0.948801</td>
+<td>0.949416</td>
+<td>huge-0.3-3</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">35</td>
+<td>0.850430</td>
+<td>0.875817</td>
+<td>0.857226</td>
+<td>0.850430</td>
+<td>0.975823</td>
+<td>0.975823</td>
+<td>0.975823</td>
+<td>wide-0.3-1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">36</td>
+<td>0.898222</td>
+<td>0.960284</td>
+<td>0.899846</td>
+<td>0.898222</td>
+<td>0.996234</td>
+<td>0.996234</td>
+<td>0.996234</td>
+<td>paper-0.3-1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">37</td>
+<td>0.911104</td>
+<td>0.978709</td>
+<td>0.995289</td>
+<td>0.911104</td>
+<td>0.995289</td>
+<td>0.995289</td>
+<td>0.995289</td>
+<td>small-0.3-1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">38</td>
+<td>0.795745</td>
+<td>0.838137</td>
+<td>0.884650</td>
+<td>0.795745</td>
+<td>0.822642</td>
+<td>0.822642</td>
+<td>0.822924</td>
+<td>gigantic-0.3-2</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">39</td>
+<td>0.744456</td>
+<td>0.860472</td>
+<td>0.830008</td>
+<td>0.744456</td>
+<td>0.978738</td>
+<td>0.979074</td>
+<td>0.980419</td>
+<td>p2p-0.3-4</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>heuristic_th_df.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">r_0.5</th>
+<th data-quarto-table-cell-role="th">e_down</th>
+<th data-quarto-table-cell-role="th">e_up</th>
+<th data-quarto-table-cell-role="th">fix</th>
+<th data-quarto-table-cell-role="th">lp_min</th>
+<th data-quarto-table-cell-role="th">lp_mean</th>
+<th data-quarto-table-cell-role="th">lp_max</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">count</td>
+<td>40.000000</td>
+<td>40.000000</td>
+<td>40.000000</td>
+<td>40.000000</td>
+<td>40.000000</td>
+<td>40.000000</td>
+<td>40.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">mean</td>
+<td>0.721312</td>
+<td>0.767954</td>
+<td>0.778746</td>
+<td>0.713463</td>
+<td>0.814458</td>
+<td>0.814513</td>
+<td>0.814571</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">std</td>
+<td>0.153024</td>
+<td>0.188515</td>
+<td>0.189436</td>
+<td>0.163644</td>
+<td>0.201974</td>
+<td>0.202089</td>
+<td>0.202227</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">min</td>
+<td>0.391753</td>
+<td>0.395604</td>
+<td>0.397590</td>
+<td>0.377088</td>
+<td>0.421603</td>
+<td>0.421603</td>
+<td>0.419580</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">25%</td>
+<td>0.639520</td>
+<td>0.668069</td>
+<td>0.654730</td>
+<td>0.627319</td>
+<td>0.684625</td>
+<td>0.682983</td>
+<td>0.680265</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">50%</td>
+<td>0.764245</td>
+<td>0.838294</td>
+<td>0.858163</td>
+<td>0.764245</td>
+<td>0.923210</td>
+<td>0.923649</td>
+<td>0.924724</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">75%</td>
+<td>0.849058</td>
+<td>0.912828</td>
+<td>0.912480</td>
+<td>0.849058</td>
+<td>0.960176</td>
+<td>0.960176</td>
+<td>0.960176</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">max</td>
+<td>0.913346</td>
+<td>0.991741</td>
+<td>0.995289</td>
+<td>0.913346</td>
+<td>0.996234</td>
+<td>0.996234</td>
+<td>0.996234</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>heuristic_th_df[<span class="st">'best'</span>]<span class="op">=</span>best_th_df[<span class="st">'best F1 Score'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>ds<span class="op">=</span>[<span class="st">'BPIC12'</span>,<span class="st">'BPIC13'</span>,<span class="st">'BPIC15'</span>,<span class="st">'BPIC17'</span>,<span class="st">'Paper'</span>,<span class="st">'P2P'</span>,<span class="st">'Small'</span>,<span class="st">'Medium'</span>,<span class="st">'Large'</span>,<span class="st">'Huge'</span>,<span class="st">'Gigantic'</span>,<span class="st">'Wide'</span>]</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span>pd.DataFrame([heuristic_th_df[heuristic_th_df[<span class="st">'Log'</span>].<span class="bu">str</span>.contains(i.lower())].mean() <span class="cf">for</span> i <span class="kw">in</span> ds],index <span class="op">=</span> ds)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>res_binet_df <span class="op">=</span> df.copy().T</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>res_binet_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">BPIC12</th>
+<th data-quarto-table-cell-role="th">BPIC13</th>
+<th data-quarto-table-cell-role="th">BPIC15</th>
+<th data-quarto-table-cell-role="th">BPIC17</th>
+<th data-quarto-table-cell-role="th">Paper</th>
+<th data-quarto-table-cell-role="th">P2P</th>
+<th data-quarto-table-cell-role="th">Small</th>
+<th data-quarto-table-cell-role="th">Medium</th>
+<th data-quarto-table-cell-role="th">Large</th>
+<th data-quarto-table-cell-role="th">Huge</th>
+<th data-quarto-table-cell-role="th">Gigantic</th>
+<th data-quarto-table-cell-role="th">Wide</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">r_0.5</td>
+<td>0.659213</td>
+<td>0.443594</td>
+<td>0.482717</td>
+<td>0.619351</td>
+<td>0.898222</td>
+<td>0.843374</td>
+<td>0.844985</td>
+<td>0.815860</td>
+<td>0.748341</td>
+<td>0.777190</td>
+<td>0.739462</td>
+<td>0.808780</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">e_down</td>
+<td>0.694447</td>
+<td>0.439140</td>
+<td>0.466954</td>
+<td>0.568852</td>
+<td>0.960284</td>
+<td>0.936781</td>
+<td>0.943588</td>
+<td>0.847611</td>
+<td>0.811015</td>
+<td>0.848674</td>
+<td>0.764254</td>
+<td>0.916465</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">e_up</td>
+<td>0.721668</td>
+<td>0.443249</td>
+<td>0.459558</td>
+<td>0.691950</td>
+<td>0.899846</td>
+<td>0.910137</td>
+<td>0.944600</td>
+<td>0.874679</td>
+<td>0.828978</td>
+<td>0.889191</td>
+<td>0.806030</td>
+<td>0.875606</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">fix</td>
+<td>0.620128</td>
+<td>0.427341</td>
+<td>0.458533</td>
+<td>0.564966</td>
+<td>0.898222</td>
+<td>0.843374</td>
+<td>0.844985</td>
+<td>0.816885</td>
+<td>0.748341</td>
+<td>0.777190</td>
+<td>0.739329</td>
+<td>0.808780</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">lp_min</td>
+<td>0.689842</td>
+<td>0.465680</td>
+<td>0.476808</td>
+<td>0.564228</td>
+<td>0.996234</td>
+<td>0.968649</td>
+<td>0.971037</td>
+<td>0.906670</td>
+<td>0.946018</td>
+<td>0.946225</td>
+<td>0.810518</td>
+<td>0.946557</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">lp_mean</td>
+<td>0.687652</td>
+<td>0.465680</td>
+<td>0.476808</td>
+<td>0.564228</td>
+<td>0.996234</td>
+<td>0.968640</td>
+<td>0.971611</td>
+<td>0.906648</td>
+<td>0.946446</td>
+<td>0.946359</td>
+<td>0.810518</td>
+<td>0.946557</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">lp_max</td>
+<td>0.684029</td>
+<td>0.465006</td>
+<td>0.476874</td>
+<td>0.565271</td>
+<td>0.996234</td>
+<td>0.968969</td>
+<td>0.971611</td>
+<td>0.906696</td>
+<td>0.946913</td>
+<td>0.946806</td>
+<td>0.810538</td>
+<td>0.946632</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">best</td>
+<td>0.717622</td>
+<td>0.457859</td>
+<td>0.458533</td>
+<td>0.661770</td>
+<td>0.999659</td>
+<td>0.977054</td>
+<td>0.965965</td>
+<td>0.943423</td>
+<td>0.942218</td>
+<td>0.900181</td>
+<td>0.902095</td>
+<td>0.941210</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Log'</span>]<span class="op">=</span>df.index</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_plot_data(th_df):</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    plot_data<span class="op">=</span>th_df.melt(var_name<span class="op">=</span><span class="st">'Heuristic'</span>,value_name<span class="op">=</span><span class="st">'F1 Score'</span>,id_vars <span class="op">=</span> [<span class="st">'Log'</span>],value_vars<span class="op">=</span>[<span class="st">'r_0.5'</span>,</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a> <span class="st">'e_down'</span>,</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a> <span class="st">'e_up'</span>,</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a> <span class="st">'fix'</span>,</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a> <span class="st">'lp_min'</span>,</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a> <span class="st">'lp_mean'</span>,</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a> <span class="st">'lp_max'</span>,</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a> <span class="st">'best'</span>,],ignore_index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>    plot_data.index<span class="op">=</span><span class="bu">range</span>(<span class="bu">len</span>(plot_data))</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> plot_data</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>plot_data <span class="op">=</span> get_plot_data(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>sns.set_theme(style<span class="op">=</span><span class="st">"darkgrid"</span>)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>plt.style.use(<span class="st">'ggplot'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> sns.catplot(</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    data<span class="op">=</span>plot_data, kind<span class="op">=</span><span class="st">"bar"</span>,</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span><span class="st">"Log"</span>, y<span class="op">=</span><span class="st">"F1 Score"</span>, hue<span class="op">=</span><span class="st">"Heuristic"</span>,</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    errorbar<span class="op">=</span><span class="st">"sd"</span>, palette<span class="op">=</span><span class="st">"dark"</span>, alpha<span class="op">=</span><span class="fl">.6</span>, height<span class="op">=</span><span class="dv">6</span>,aspect<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>g.despine(left<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>g.set_axis_labels(<span class="st">"LOGS"</span>, <span class="st">"F1 SCORE"</span>)</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation <span class="op">=</span> <span class="dv">0</span>)</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>g.legend.set_title(<span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="10_anomaly.performance_binet_files/figure-html/cell-31-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>binet_synth_df <span class="op">=</span>heuristic_th_df.sort_values(<span class="st">'best'</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_plot_data(th_df,id_vars<span class="op">=</span>[<span class="st">'Log Name'</span>],value_vars <span class="op">=</span> [<span class="st">'F1 Score'</span>,<span class="st">'Anomaly Ratio'</span>]):</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    plot_data<span class="op">=</span>th_df.melt(var_name<span class="op">=</span><span class="st">'Heuristic'</span>,value_name<span class="op">=</span><span class="st">'Score'</span>,id_vars <span class="op">=</span>id_vars ,value_vars<span class="op">=</span>value_vars,ignore_index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    plot_data[<span class="st">'Threshold'</span>]<span class="op">=</span>plot_data.index</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    plot_data.index<span class="op">=</span><span class="bu">range</span>(<span class="bu">len</span>(plot_data))</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> plot_data</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>plot_data <span class="op">=</span> get_plot_data(binet_synth_df,id_vars<span class="op">=</span>[<span class="st">'Log'</span>],value_vars<span class="op">=</span>[<span class="st">'best'</span>,</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a> <span class="st">'e_down'</span>,</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a> <span class="st">'fix'</span>,</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a> <span class="st">'lp_mean'</span>,</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>log2int <span class="op">=</span> {j:i <span class="cf">for</span> i,j <span class="kw">in</span> <span class="bu">enumerate</span>(binet_synth_df[<span class="st">'Log'</span>].unique())}</span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a>plot_data [<span class="st">'Log'</span>]<span class="op">=</span> plot_data[<span class="st">'Log'</span>].<span class="bu">map</span>(log2int)</span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a>plot_data [<span class="st">'F1 Score'</span>]<span class="op">=</span>plot_data [<span class="st">'Score'</span>]</span>
+<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a>sns.<span class="bu">set</span>(rc<span class="op">=</span>{<span class="st">'figure.figsize'</span>:(<span class="fl">11.7</span>,<span class="fl">8.27</span>)})</span>
+<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-22"><a href="#cb38-22" aria-hidden="true" tabindex="-1"></a>g<span class="op">=</span>sns.scatterplot(data <span class="op">=</span>plot_data, x<span class="op">=</span><span class="st">'Log'</span>,y<span class="op">=</span><span class="st">'F1 Score'</span>, hue<span class="op">=</span><span class="st">'Heuristic'</span> ,linewidth<span class="op">=</span><span class="dv">0</span>,)</span>
+<span id="cb38-23"><a href="#cb38-23" aria-hidden="true" tabindex="-1"></a>plt.legend(bbox_to_anchor<span class="op">=</span>(<span class="fl">1.05</span>, <span class="dv">1</span>), loc<span class="op">=</span><span class="dv">2</span>, borderaxespad<span class="op">=</span><span class="fl">0.</span>)</span>
+<span id="cb38-24"><a href="#cb38-24" aria-hidden="true" tabindex="-1"></a>g.set_xticks(<span class="bu">range</span>(<span class="bu">len</span>(binet_synth_df)))<span class="op">;</span></span>
+<span id="cb38-25"><a href="#cb38-25" aria-hidden="true" tabindex="-1"></a>g.set_xticklabels(binet_synth_df[<span class="st">'Log'</span>].unique(),rotation <span class="op">=</span> <span class="dv">90</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="10_anomaly.performance_binet_files/figure-html/cell-32-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="anomaly-types" class="level2">
+<h2 class="anchored" data-anchor-id="anomaly-types">Anomaly Types</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>h_ths_df[<span class="st">'lp_mean'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>activity    0.986
+user        0.985
+day         0.987
+country     0.985
+company     0.981
+Name: lp_mean, dtype: float64</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>log_name <span class="op">=</span> <span class="st">'large-0.3-4'</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>score_df,cols,o <span class="op">=</span> get_score_df(log_name)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>max_error_cases <span class="op">=</span> score_df.groupby(<span class="st">'trace_id'</span>).<span class="bu">max</span>()</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>y_true <span class="op">=</span>o.items.groupby(o.items.index)[<span class="st">'anomaly'</span>].last().to_numpy() <span class="op">!=</span> <span class="st">'normal'</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span>threshold_anomaly_ratio_df_fixed(max_error_cases)</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>h_ths <span class="op">=</span> {col:[i <span class="cf">for</span> j <span class="kw">in</span> [[k.Th <span class="cf">for</span> k <span class="kw">in</span> listify(h(df[df[<span class="st">'Col'</span>]<span class="op">==</span>col]))] <span class="cf">for</span> h <span class="kw">in</span> heuristics] <span class="cf">for</span> i <span class="kw">in</span> j] <span class="cf">for</span> col <span class="kw">in</span> cols}</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>h_ths_df <span class="op">=</span> pd.DataFrame(h_ths,index<span class="op">=</span>heuristic_names).transpose()</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>ths <span class="op">=</span> h_ths_df[<span class="st">'lp_mean'</span>]</span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span>(np.array([(max_error_cases[c]<span class="op">&gt;</span>ths[c]).tolist() <span class="cf">for</span> c <span class="kw">in</span> cols]).<span class="bu">max</span>(axis<span class="op">=</span><span class="dv">0</span>))   </span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>k<span class="op">=</span>o.items.groupby(o.items.index)[<span class="st">'anomaly'</span>].last().iloc[np.where(np.equal(y_pred, y_true))[<span class="dv">0</span>]]</span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>k.value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>normal          3215
+Early            267
+Insert           262
+SkipSequence     259
+Rework           251
+Late             239
+Attribute        206
+Name: anomaly, dtype: int64</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>k<span class="op">=</span>o.items.groupby(o.items.index)[<span class="st">'anomaly'</span>].last().iloc[np.where(<span class="op">~</span>np.equal(y_pred, y_true))[<span class="dv">0</span>]]</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>k.value_counts()</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>multi_attr_f1_score(y_true,max_error_cases,ths.to_dict())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>0.9079229122055674</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>ths</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>activity    0.981
+user        0.978
+day         0.984
+country     0.984
+company     0.975
+Name: lp_mean, dtype: float64</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>best_th_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">log_name</th>
+<th data-quarto-table-cell-role="th">best F1 Score</th>
+<th data-quarto-table-cell-role="th">activity</th>
+<th data-quarto-table-cell-role="th">user</th>
+<th data-quarto-table-cell-role="th">day</th>
+<th data-quarto-table-cell-role="th">country</th>
+<th data-quarto-table-cell-role="th">company</th>
+<th data-quarto-table-cell-role="th">org:resource</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>bpic15-0.3-4</td>
+<td>0.451471</td>
+<td>0.944065</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.818468</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>large-0.3-4</td>
+<td>0.937398</td>
+<td>0.940005</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>0.999750</td>
+<td>0.981446</td>
+<td>0.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>small-0.3-4</td>
+<td>0.961668</td>
+<td>0.873245</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>0.931696</td>
+<td>1.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>bpic13-0.3-3</td>
+<td>0.419858</td>
+<td>0.824835</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.993919</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>medium-0.3-3</td>
+<td>0.930289</td>
+<td>0.823992</td>
+<td>0.972513</td>
+<td>0.964294</td>
+<td>0.960638</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>medium-0.3-1</td>
+<td>0.975855</td>
+<td>0.960149</td>
+<td>0.993652</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>bpic17-0.3-1</td>
+<td>0.484787</td>
+<td>0.893105</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>1.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>wide-0.3-3</td>
+<td>0.926388</td>
+<td>0.847682</td>
+<td>1.000000</td>
+<td>0.946180</td>
+<td>0.995507</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>large-0.3-2</td>
+<td>0.951917</td>
+<td>0.950029</td>
+<td>0.949633</td>
+<td>0.997772</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>bpic17-0.3-2</td>
+<td>0.838753</td>
+<td>0.884222</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.991578</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">10</td>
+<td>bpic13-0.3-1</td>
+<td>0.468346</td>
+<td>0.824835</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.993919</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">11</td>
+<td>small-0.3-3</td>
+<td>0.932209</td>
+<td>0.941794</td>
+<td>0.960505</td>
+<td>0.932191</td>
+<td>0.948540</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12</td>
+<td>bpic12-0.3-1</td>
+<td>0.717622</td>
+<td>0.975623</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">13</td>
+<td>huge-0.3-2</td>
+<td>0.904886</td>
+<td>0.950029</td>
+<td>0.949633</td>
+<td>0.997772</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">14</td>
+<td>p2p-0.3-3</td>
+<td>0.957556</td>
+<td>0.931714</td>
+<td>0.940759</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">15</td>
+<td>wide-0.3-4</td>
+<td>0.887997</td>
+<td>0.885476</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">16</td>
+<td>huge-0.3-1</td>
+<td>0.984322</td>
+<td>0.960149</td>
+<td>0.993652</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">17</td>
+<td>gigantic-0.3-1</td>
+<td>0.907391</td>
+<td>0.937300</td>
+<td>0.966925</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18</td>
+<td>p2p-0.3-1</td>
+<td>0.993802</td>
+<td>0.975278</td>
+<td>0.978921</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">19</td>
+<td>wide-0.3-2</td>
+<td>0.958913</td>
+<td>0.950029</td>
+<td>0.949633</td>
+<td>0.997772</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">20</td>
+<td>bpic15-0.3-2</td>
+<td>0.436090</td>
+<td>0.944065</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.818468</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">21</td>
+<td>large-0.3-1</td>
+<td>0.987251</td>
+<td>0.960149</td>
+<td>0.993652</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">22</td>
+<td>bpic15-0.3-1</td>
+<td>0.490875</td>
+<td>0.944065</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.818468</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">23</td>
+<td>gigantic-0.3-3</td>
+<td>0.936312</td>
+<td>0.895252</td>
+<td>1.000000</td>
+<td>0.976421</td>
+<td>1.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">24</td>
+<td>medium-0.3-4</td>
+<td>0.931641</td>
+<td>0.940106</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>0.984717</td>
+<td>1.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">25</td>
+<td>medium-0.3-2</td>
+<td>0.935906</td>
+<td>0.950029</td>
+<td>0.949633</td>
+<td>0.997772</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">26</td>
+<td>huge-0.3-4</td>
+<td>0.887196</td>
+<td>0.896746</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">27</td>
+<td>gigantic-0.3-4</td>
+<td>0.879924</td>
+<td>0.926454</td>
+<td>1.000000</td>
+<td>0.998477</td>
+<td>0.981558</td>
+<td>1.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">28</td>
+<td>bpic13-0.3-2</td>
+<td>0.485372</td>
+<td>0.800000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>1.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">29</td>
+<td>p2p-0.3-2</td>
+<td>0.975610</td>
+<td>0.950029</td>
+<td>0.949633</td>
+<td>0.997772</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">30</td>
+<td>bpic15-0.3-3</td>
+<td>0.474283</td>
+<td>0.944065</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.818468</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">31</td>
+<td>bpic15-0.3-5</td>
+<td>0.439946</td>
+<td>0.944065</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.818468</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">32</td>
+<td>large-0.3-3</td>
+<td>0.892308</td>
+<td>0.867383</td>
+<td>1.000000</td>
+<td>0.978184</td>
+<td>0.996034</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">33</td>
+<td>small-0.3-2</td>
+<td>0.973026</td>
+<td>0.950029</td>
+<td>0.949633</td>
+<td>0.997772</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">34</td>
+<td>huge-0.3-3</td>
+<td>0.824321</td>
+<td>0.960149</td>
+<td>0.938465</td>
+<td>0.862685</td>
+<td>0.993652</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">35</td>
+<td>wide-0.3-1</td>
+<td>0.991540</td>
+<td>0.960149</td>
+<td>0.993652</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">36</td>
+<td>paper-0.3-1</td>
+<td>0.999659</td>
+<td>0.883404</td>
+<td>0.944065</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">37</td>
+<td>small-0.3-1</td>
+<td>0.996956</td>
+<td>0.960149</td>
+<td>0.993652</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">38</td>
+<td>gigantic-0.3-2</td>
+<td>0.884754</td>
+<td>0.950029</td>
+<td>0.949633</td>
+<td>0.997772</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">39</td>
+<td>p2p-0.3-4</td>
+<td>0.981248</td>
+<td>0.946049</td>
+<td>0.995983</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>0.957152</td>
+<td>0.000000</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>anomalie_types <span class="op">=</span> []</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> log_name <span class="kw">in</span> progress_bar(logs):</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>    score_df,cols,o <span class="op">=</span> get_score_df(log_name)</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>    max_error_cases <span class="op">=</span> score_df.groupby(<span class="st">'trace_id'</span>).<span class="bu">max</span>()</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>    y_true <span class="op">=</span>o.items.groupby(o.items.index)[<span class="st">'anomaly'</span>].last().to_numpy() <span class="op">!=</span> <span class="st">'normal'</span></span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span>threshold_anomaly_ratio_df_fixed(max_error_cases)</span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>    h_ths <span class="op">=</span> {col:[i <span class="cf">for</span> j <span class="kw">in</span> [[k.Th <span class="cf">for</span> k <span class="kw">in</span> listify(h(df[df[<span class="st">'Col'</span>]<span class="op">==</span>col]))] <span class="cf">for</span> h <span class="kw">in</span> heuristics] <span class="cf">for</span> i <span class="kw">in</span> j] <span class="cf">for</span> col <span class="kw">in</span> cols}</span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>    h_ths_df <span class="op">=</span> pd.DataFrame(h_ths,index<span class="op">=</span>heuristic_names).transpose()</span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> hn <span class="kw">in</span> heuristic_names:</span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>        ths <span class="op">=</span>h_ths_df[hn]</span>
+<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a>        y_pred <span class="op">=</span>(np.array([(max_error_cases[c]<span class="op">&gt;</span>ths[c]).tolist() <span class="cf">for</span> c <span class="kw">in</span> cols <span class="cf">if</span> c <span class="kw">in</span> all_cols]).<span class="bu">max</span>(axis<span class="op">=</span><span class="dv">0</span>))   </span>
+<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a>        k<span class="op">=</span>o.items.groupby(o.items.index)[<span class="st">'anomaly'</span>].last().iloc[np.where(np.equal(y_pred, y_true))[<span class="dv">0</span>]]</span>
+<span id="cb48-14"><a href="#cb48-14" aria-hidden="true" tabindex="-1"></a>        k<span class="op">=</span> k.value_counts().to_dict()</span>
+<span id="cb48-15"><a href="#cb48-15" aria-hidden="true" tabindex="-1"></a>        k[<span class="st">'heuristic'</span>]<span class="op">=</span>hn</span>
+<span id="cb48-16"><a href="#cb48-16" aria-hidden="true" tabindex="-1"></a>        k[<span class="st">'log_name'</span>] <span class="op">=</span> log_name</span>
+<span id="cb48-17"><a href="#cb48-17" aria-hidden="true" tabindex="-1"></a>        k[<span class="st">'correct'</span>]<span class="op">=</span><span class="va">True</span></span>
+<span id="cb48-18"><a href="#cb48-18" aria-hidden="true" tabindex="-1"></a>        anomalie_types.append(k)</span>
+<span id="cb48-19"><a href="#cb48-19" aria-hidden="true" tabindex="-1"></a>        k<span class="op">=</span>o.items.groupby(o.items.index)[<span class="st">'anomaly'</span>].last().iloc[np.where(<span class="op">~</span>np.equal(y_pred, y_true))[<span class="dv">0</span>]]</span>
+<span id="cb48-20"><a href="#cb48-20" aria-hidden="true" tabindex="-1"></a>        k<span class="op">=</span> k.value_counts().to_dict()</span>
+<span id="cb48-21"><a href="#cb48-21" aria-hidden="true" tabindex="-1"></a>        k[<span class="st">'log_name'</span>] <span class="op">=</span> log_name</span>
+<span id="cb48-22"><a href="#cb48-22" aria-hidden="true" tabindex="-1"></a>        k[<span class="st">'correct'</span>]<span class="op">=</span><span class="va">False</span></span>
+<span id="cb48-23"><a href="#cb48-23" aria-hidden="true" tabindex="-1"></a>        k[<span class="st">'heuristic'</span>]<span class="op">=</span>hn</span>
+<span id="cb48-24"><a href="#cb48-24" aria-hidden="true" tabindex="-1"></a>        anomalie_types.append(k)</span>
+<span id="cb48-25"><a href="#cb48-25" aria-hidden="true" tabindex="-1"></a>    settings <span class="op">=</span> best_th_df[best_th_df[<span class="st">'log_name'</span>]<span class="op">==</span>log_name].iloc[<span class="dv">0</span>][<span class="dv">2</span>:]</span>
+<span id="cb48-26"><a href="#cb48-26" aria-hidden="true" tabindex="-1"></a>    y_pred <span class="op">=</span>(np.array([(max_error_cases[c]<span class="op">&gt;</span>settings[c]).tolist() <span class="cf">for</span> c <span class="kw">in</span> cols <span class="cf">if</span> c <span class="kw">in</span> all_cols]).<span class="bu">max</span>(axis<span class="op">=</span><span class="dv">0</span>))  </span>
+<span id="cb48-27"><a href="#cb48-27" aria-hidden="true" tabindex="-1"></a>    k<span class="op">=</span>o.items.groupby(o.items.index)[<span class="st">'anomaly'</span>].last().iloc[np.where(np.equal(y_pred, y_true))[<span class="dv">0</span>]]</span>
+<span id="cb48-28"><a href="#cb48-28" aria-hidden="true" tabindex="-1"></a>    k<span class="op">=</span> k.value_counts().to_dict()</span>
+<span id="cb48-29"><a href="#cb48-29" aria-hidden="true" tabindex="-1"></a>    k[<span class="st">'heuristic'</span>]<span class="op">=</span><span class="st">'best'</span></span>
+<span id="cb48-30"><a href="#cb48-30" aria-hidden="true" tabindex="-1"></a>    k[<span class="st">'log_name'</span>] <span class="op">=</span> log_name</span>
+<span id="cb48-31"><a href="#cb48-31" aria-hidden="true" tabindex="-1"></a>    k[<span class="st">'correct'</span>]<span class="op">=</span><span class="va">True</span></span>
+<span id="cb48-32"><a href="#cb48-32" aria-hidden="true" tabindex="-1"></a>    anomalie_types.append(k)</span>
+<span id="cb48-33"><a href="#cb48-33" aria-hidden="true" tabindex="-1"></a>    k<span class="op">=</span>o.items.groupby(o.items.index)[<span class="st">'anomaly'</span>].last().iloc[np.where(<span class="op">~</span>np.equal(y_pred, y_true))[<span class="dv">0</span>]]</span>
+<span id="cb48-34"><a href="#cb48-34" aria-hidden="true" tabindex="-1"></a>    k<span class="op">=</span> k.value_counts().to_dict()</span>
+<span id="cb48-35"><a href="#cb48-35" aria-hidden="true" tabindex="-1"></a>    k[<span class="st">'log_name'</span>] <span class="op">=</span> log_name</span>
+<span id="cb48-36"><a href="#cb48-36" aria-hidden="true" tabindex="-1"></a>    k[<span class="st">'correct'</span>]<span class="op">=</span><span class="va">False</span></span>
+<span id="cb48-37"><a href="#cb48-37" aria-hidden="true" tabindex="-1"></a>    k[<span class="st">'heuristic'</span>]<span class="op">=</span><span class="st">'best'</span></span>
+<span id="cb48-38"><a href="#cb48-38" aria-hidden="true" tabindex="-1"></a>    anomalie_types.append(k)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+    <div>
+      <progress value="40" class="" max="40" style="width:300px; height:20px; vertical-align: middle;"></progress>
+      100.00% [40/40 01:03&lt;00:00]
+    </div>
+    
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/tmp/ipykernel_3414969/612902554.py:4: DtypeWarning: Columns (17) have mixed types.Specify dtype option on import or set low_memory=False.
+  score_df,cols,o = get_score_df(log_name)
+/home/lahann/mambaforge/envs/pympp/lib/python3.8/site-packages/IPython/core/interactiveshell.py:3398: DtypeWarning: Columns (17) have mixed types.Specify dtype option on import or set low_memory=False.
+  exec(code_obj, self.user_global_ns, self.user_ns)
+/tmp/ipykernel_3414969/612902554.py:4: DtypeWarning: Columns (17) have mixed types.Specify dtype option on import or set low_memory=False.
+  score_df,cols,o = get_score_df(log_name)
+/home/lahann/mambaforge/envs/pympp/lib/python3.8/site-packages/IPython/core/interactiveshell.py:3398: DtypeWarning: Columns (17) have mixed types.Specify dtype option on import or set low_memory=False.
+  exec(code_obj, self.user_global_ns, self.user_ns)
+/tmp/ipykernel_3414969/612902554.py:4: DtypeWarning: Columns (17) have mixed types.Specify dtype option on import or set low_memory=False.
+  score_df,cols,o = get_score_df(log_name)
+/home/lahann/mambaforge/envs/pympp/lib/python3.8/site-packages/IPython/core/interactiveshell.py:3398: DtypeWarning: Columns (17) have mixed types.Specify dtype option on import or set low_memory=False.
+  exec(code_obj, self.user_global_ns, self.user_ns)
+/tmp/ipykernel_3414969/612902554.py:4: DtypeWarning: Columns (17) have mixed types.Specify dtype option on import or set low_memory=False.
+  score_df,cols,o = get_score_df(log_name)
+/home/lahann/mambaforge/envs/pympp/lib/python3.8/site-packages/IPython/core/interactiveshell.py:3398: DtypeWarning: Columns (17) have mixed types.Specify dtype option on import or set low_memory=False.
+  exec(code_obj, self.user_global_ns, self.user_ns)
+/tmp/ipykernel_3414969/612902554.py:4: DtypeWarning: Columns (17) have mixed types.Specify dtype option on import or set low_memory=False.
+  score_df,cols,o = get_score_df(log_name)
+/home/lahann/mambaforge/envs/pympp/lib/python3.8/site-packages/IPython/core/interactiveshell.py:3398: DtypeWarning: Columns (17) have mixed types.Specify dtype option on import or set low_memory=False.
+  exec(code_obj, self.user_global_ns, self.user_ns)</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>anomalie_types<span class="op">=</span> pd.DataFrame(anomalie_types)</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>anomalie_types.fillna(<span class="dv">0</span>,inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="op">-</span> (anomalie_types[(anomalie_types[<span class="st">'heuristic'</span>]<span class="op">==</span><span class="st">'lp_mean'</span>)<span class="op">&amp;</span>(anomalie_types[<span class="st">'correct'</span>]<span class="op">==</span><span class="va">False</span>)][<span class="st">'Early'</span>].<span class="bu">sum</span>() <span class="op">/</span> </span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>anomalie_types[(anomalie_types[<span class="st">'heuristic'</span>]<span class="op">==</span><span class="st">'lp_mean'</span>)][<span class="st">'Early'</span>].<span class="bu">sum</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>0.8302284140612344</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>anomalie_types[(anomalie_types[<span class="st">'heuristic'</span>]<span class="op">==</span><span class="st">'lp_mean'</span>)][<span class="st">'Early'</span>].<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>12346.0</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>anomalie_types_bpi <span class="op">=</span> anomalie_types[anomalie_types[<span class="st">'log_name'</span>].<span class="bu">str</span>.contains(<span class="st">'bpi'</span>)]</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>anomalie_types_synth <span class="op">=</span> anomalie_types[<span class="op">~</span>anomalie_types[<span class="st">'log_name'</span>].<span class="bu">str</span>.contains(<span class="st">'bpi'</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>heuristics_desc <span class="op">=</span> [<span class="st">'Best'</span>,<span class="st">'Elbow↓'</span>,<span class="st">'Elbow↑'</span>,<span class="st">'Fix-98'</span>,<span class="st">'LP-Max'</span>,<span class="st">'LP-Mean'</span>,<span class="st">'LP-Min'</span>,<span class="st">'AR-0.5'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>anomalie_types <span class="op">=</span> anomalie_types_bpi</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>anomalie_types_ratio <span class="op">=</span>(anomalie_types[anomalie_types[<span class="st">'correct'</span>]<span class="op">==</span><span class="va">False</span>].groupby([<span class="st">'heuristic'</span>])[anomalie_types.columns[:<span class="op">-</span><span class="dv">3</span>]].<span class="bu">sum</span>()</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="op">/</span> anomalie_types.groupby([<span class="st">'heuristic'</span>])[anomalie_types.columns[:<span class="op">-</span><span class="dv">3</span>]].<span class="bu">sum</span>())</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>anomalie_types_ratio <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> (anomalie_types_ratio)</span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>anomalie_types_ratio[<span class="st">'Heuristic'</span>]<span class="op">=</span>anomalie_types_ratio.index</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>anomalie_types_ratio[<span class="st">'Normal'</span>]<span class="op">=</span>anomalie_types_ratio[<span class="st">'normal'</span>]</span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>anomalie_types_ratio[<span class="st">'Heuristic'</span>] <span class="op">=</span> heuristics_desc</span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>anomalie_types_ratio</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">normal</th>
+<th data-quarto-table-cell-role="th">Attribute</th>
+<th data-quarto-table-cell-role="th">Rework</th>
+<th data-quarto-table-cell-role="th">Late</th>
+<th data-quarto-table-cell-role="th">Insert</th>
+<th data-quarto-table-cell-role="th">SkipSequence</th>
+<th data-quarto-table-cell-role="th">Early</th>
+<th data-quarto-table-cell-role="th">Heuristic</th>
+<th data-quarto-table-cell-role="th">Normal</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">heuristic</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">best</td>
+<td>0.645508</td>
+<td>0.676679</td>
+<td>0.974893</td>
+<td>0.915004</td>
+<td>1.000000</td>
+<td>0.946477</td>
+<td>0.927695</td>
+<td>Best</td>
+<td>0.645508</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">e_down</td>
+<td>0.400341</td>
+<td>0.890186</td>
+<td>0.978396</td>
+<td>0.907023</td>
+<td>1.000000</td>
+<td>0.981132</td>
+<td>0.871692</td>
+<td>Elbow↓</td>
+<td>0.400341</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">e_up</td>
+<td>0.624262</td>
+<td>0.743447</td>
+<td>0.932269</td>
+<td>0.940942</td>
+<td>0.999808</td>
+<td>0.932807</td>
+<td>0.942846</td>
+<td>Elbow↑</td>
+<td>0.624262</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">fix</td>
+<td>0.325507</td>
+<td>0.918883</td>
+<td>0.992799</td>
+<td>0.989824</td>
+<td>1.000000</td>
+<td>0.994417</td>
+<td>0.992520</td>
+<td>Fix-98</td>
+<td>0.325507</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">lp_max</td>
+<td>0.479932</td>
+<td>0.854601</td>
+<td>0.821331</td>
+<td>0.726457</td>
+<td>0.999424</td>
+<td>0.931267</td>
+<td>0.738013</td>
+<td>LP-Max</td>
+<td>0.479932</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">lp_mean</td>
+<td>0.476992</td>
+<td>0.854792</td>
+<td>0.823472</td>
+<td>0.727454</td>
+<td>0.999424</td>
+<td>0.932807</td>
+<td>0.739164</td>
+<td>LP-Mean</td>
+<td>0.476992</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">lp_min</td>
+<td>0.476826</td>
+<td>0.855366</td>
+<td>0.824835</td>
+<td>0.728053</td>
+<td>0.999424</td>
+<td>0.933577</td>
+<td>0.739356</td>
+<td>LP-Min</td>
+<td>0.476826</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">r_0.5</td>
+<td>0.528791</td>
+<td>0.877559</td>
+<td>0.958155</td>
+<td>0.956504</td>
+<td>1.000000</td>
+<td>0.955333</td>
+<td>0.963368</td>
+<td>AR-0.5</td>
+<td>0.528791</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>color_palette <span class="op">=</span> sns.color_palette()</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> anomalie_types_ratio.melt(var_name<span class="op">=</span><span class="st">'Anomaly Type'</span>,value_name<span class="op">=</span><span class="st">'Precision'</span>,id_vars <span class="op">=</span><span class="st">'Heuristic'</span>,value_vars<span class="op">=</span>[<span class="st">'Normal'</span>,</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a> <span class="st">'Rework'</span>,</span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a> <span class="st">'Late'</span>,</span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a> <span class="st">'Insert'</span>,</span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a> <span class="st">'SkipSequence'</span>,</span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a> <span class="st">'Attribute'</span>,</span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a> <span class="st">'Early'</span>],ignore_index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> sns.catplot(x<span class="op">=</span><span class="st">"Anomaly Type"</span>, y<span class="op">=</span><span class="st">"Precision"</span>,palette<span class="op">=</span>color_palette,</span>
+<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>                data<span class="op">=</span>df, kind<span class="op">=</span><span class="st">"bar"</span>,hue<span class="op">=</span><span class="st">'Heuristic'</span>,</span>
+<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a> height<span class="op">=</span><span class="fl">3.5</span>, aspect<span class="op">=</span><span class="fl">3.7</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="10_anomaly.performance_binet_files/figure-html/cell-45-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>anomalie_types <span class="op">=</span> anomalie_types_synth</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>anomalie_types_ratio <span class="op">=</span>(anomalie_types[anomalie_types[<span class="st">'correct'</span>]<span class="op">==</span><span class="va">False</span>].groupby([<span class="st">'heuristic'</span>])[anomalie_types.columns[:<span class="op">-</span><span class="dv">3</span>]].<span class="bu">sum</span>()</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="op">/</span> anomalie_types.groupby([<span class="st">'heuristic'</span>])[anomalie_types.columns[:<span class="op">-</span><span class="dv">3</span>]].<span class="bu">sum</span>())</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>anomalie_types_ratio <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> (anomalie_types_ratio)</span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>anomalie_types_ratio[<span class="st">'Heuristic'</span>]<span class="op">=</span>anomalie_types_ratio.index</span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>anomalie_types_ratio[<span class="st">'Normal'</span>]<span class="op">=</span>anomalie_types_ratio[<span class="st">'normal'</span>]</span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>anomalie_types_ratio[<span class="st">'Heuristic'</span>] <span class="op">=</span> heuristics_desc</span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a>anomalie_types_ratio</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">normal</th>
+<th data-quarto-table-cell-role="th">Attribute</th>
+<th data-quarto-table-cell-role="th">Rework</th>
+<th data-quarto-table-cell-role="th">Late</th>
+<th data-quarto-table-cell-role="th">Insert</th>
+<th data-quarto-table-cell-role="th">SkipSequence</th>
+<th data-quarto-table-cell-role="th">Early</th>
+<th data-quarto-table-cell-role="th">Heuristic</th>
+<th data-quarto-table-cell-role="th">Normal</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">heuristic</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">best</td>
+<td>0.962247</td>
+<td>0.789085</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>1.0</td>
+<td>0.999312</td>
+<td>1.000000</td>
+<td>Best</td>
+<td>0.962247</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">e_down</td>
+<td>0.880865</td>
+<td>0.974662</td>
+<td>0.996899</td>
+<td>0.924728</td>
+<td>1.0</td>
+<td>0.974401</td>
+<td>0.938446</td>
+<td>Elbow↓</td>
+<td>0.880865</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">e_up</td>
+<td>0.881101</td>
+<td>0.933872</td>
+<td>0.991683</td>
+<td>0.977295</td>
+<td>1.0</td>
+<td>0.972887</td>
+<td>0.985558</td>
+<td>Elbow↑</td>
+<td>0.881101</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">fix</td>
+<td>0.778484</td>
+<td>0.987053</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>1.0</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>Fix-98</td>
+<td>0.778484</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">lp_max</td>
+<td>0.966109</td>
+<td>0.960880</td>
+<td>0.983225</td>
+<td>0.868722</td>
+<td>1.0</td>
+<td>0.917148</td>
+<td>0.896663</td>
+<td>LP-Max</td>
+<td>0.966109</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">lp_mean</td>
+<td>0.965834</td>
+<td>0.960880</td>
+<td>0.983225</td>
+<td>0.868722</td>
+<td>1.0</td>
+<td>0.918112</td>
+<td>0.896803</td>
+<td>LP-Mean</td>
+<td>0.965834</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">lp_min</td>
+<td>0.965637</td>
+<td>0.960880</td>
+<td>0.983225</td>
+<td>0.868997</td>
+<td>1.0</td>
+<td>0.918525</td>
+<td>0.896803</td>
+<td>LP-Min</td>
+<td>0.965637</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">r_0.5</td>
+<td>0.778317</td>
+<td>0.987053</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>1.0</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>AR-0.5</td>
+<td>0.778317</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>color_palette <span class="op">=</span> sns.color_palette()</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> anomalie_types_ratio.melt(var_name<span class="op">=</span><span class="st">'Anomaly Type'</span>,value_name<span class="op">=</span><span class="st">'Precision'</span>,id_vars <span class="op">=</span><span class="st">'Heuristic'</span>,value_vars<span class="op">=</span>[<span class="st">'Normal'</span>,</span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a> <span class="st">'Rework'</span>,</span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a> <span class="st">'Late'</span>,</span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a> <span class="st">'Insert'</span>,</span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a> <span class="st">'SkipSequence'</span>,</span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a> <span class="st">'Attribute'</span>,</span>
+<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a> <span class="st">'Early'</span>],ignore_index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> sns.catplot(x<span class="op">=</span><span class="st">"Anomaly Type"</span>, y<span class="op">=</span><span class="st">"Precision"</span>,palette<span class="op">=</span>color_palette,</span>
+<span id="cb60-10"><a href="#cb60-10" aria-hidden="true" tabindex="-1"></a>                data<span class="op">=</span>df, kind<span class="op">=</span><span class="st">"bar"</span>,hue<span class="op">=</span><span class="st">'Heuristic'</span>,</span>
+<span id="cb60-11"><a href="#cb60-11" aria-hidden="true" tabindex="-1"></a>                height<span class="op">=</span><span class="fl">3.5</span>, aspect<span class="op">=</span><span class="fl">3.7</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="10_anomaly.performance_binet_files/figure-html/cell-47-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

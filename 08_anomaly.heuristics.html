@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.361">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>pympp - Anomaly Detection Heuristics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="styles.css">
+<meta property="og:title" content="pympp - Anomaly Detection Heuristics">
+<meta property="og:description" content="">
+<meta property="og:image" content="https://joLahann.github.io/pympp/08_anomaly.heuristics_files/figure-html/cell-26-output-2.png">
+<meta property="og:site-name" content="pympp">
+<meta property="og:image:height" content="864">
+<meta property="og:image:width" content="1873">
+<meta name="twitter:title" content="pympp - Anomaly Detection Heuristics">
+<meta name="twitter:description" content="">
+<meta name="twitter:image" content="https://joLahann.github.io/pympp/08_anomaly.heuristics_files/figure-html/cell-26-output-2.png">
+<meta name="twitter:image-height" content="864">
+<meta name="twitter:image-width" content="1873">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">pympp</span>
+    </a>
+  </div>
+        <div class="quarto-navbar-tools ms-auto">
+</div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./06_anomaly.detect.html">Anomaly Detection</a></li><li class="breadcrumb-item"><a href="./08_anomaly.heuristics.html">Anomaly Detection Heuristics</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">pympp</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00_logs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Logs</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_process.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Process</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Prediction</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./prediction.predict.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Predict</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_prediction.models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Baseline implementations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_prediction.mppn.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">MPPN</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_prediction.eval.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prediction Evaluation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Anomaly Detection</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_anomaly.detect.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Anomaly Detection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_anomaly.training.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Training</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_anomaly.heuristics.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Anomaly Detection Heuristics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09_anomaly.performance_pdc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">PDC Performance</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10_anomaly.performance_binet.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">BINET Performance</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#get-anomaly-scores" id="toc-get-anomaly-scores" class="nav-link active" data-scroll-target="#get-anomaly-scores">Get Anomaly Scores:</a>
+  <ul>
+  <li><a href="#f_score" id="toc-f_score" class="nav-link" data-scroll-target="#f_score">f_score</a></li>
+  <li><a href="#load_pred_model" id="toc-load_pred_model" class="nav-link" data-scroll-target="#load_pred_model">load_pred_model</a></li>
+  <li><a href="#multivariate_anomaly_score" id="toc-multivariate_anomaly_score" class="nav-link" data-scroll-target="#multivariate_anomaly_score">multivariate_anomaly_score</a></li>
+  <li><a href="#get_score_df" id="toc-get_score_df" class="nav-link" data-scroll-target="#get_score_df">get_score_df</a></li>
+  </ul></li>
+  <li><a href="#get-predictions-per-threshold" id="toc-get-predictions-per-threshold" class="nav-link" data-scroll-target="#get-predictions-per-threshold">Get Predictions per threshold</a>
+  <ul>
+  <li><a href="#get_preds" id="toc-get_preds" class="nav-link" data-scroll-target="#get_preds">get_preds</a></li>
+  <li><a href="#get_th_df" id="toc-get_th_df" class="nav-link" data-scroll-target="#get_th_df">get_th_df</a></li>
+  </ul></li>
+  <li><a href="#heuristics" id="toc-heuristics" class="nav-link" data-scroll-target="#heuristics">Heuristics</a>
+  <ul>
+  <li><a href="#get_best_threshhold" id="toc-get_best_threshhold" class="nav-link" data-scroll-target="#get_best_threshhold">get_best_threshhold</a></li>
+  <li><a href="#get_fixed_heuristic" id="toc-get_fixed_heuristic" class="nav-link" data-scroll-target="#get_fixed_heuristic">get_fixed_heuristic</a></li>
+  <li><a href="#get_ratio_th" id="toc-get_ratio_th" class="nav-link" data-scroll-target="#get_ratio_th">get_ratio_th</a></li>
+  <li><a href="#elbow_heuristic" id="toc-elbow_heuristic" class="nav-link" data-scroll-target="#elbow_heuristic">elbow_heuristic</a></li>
+  <li><a href="#get_lowest_plateau_heuristic" id="toc-get_lowest_plateau_heuristic" class="nav-link" data-scroll-target="#get_lowest_plateau_heuristic">get_lowest_plateau_heuristic</a></li>
+  </ul></li>
+  <li><a href="#visualization" id="toc-visualization" class="nav-link" data-scroll-target="#visualization">Visualization</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/joLahann/pympp/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Anomaly Detection Heuristics</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<blockquote class="blockquote">
+<p>This notebook reimplements and prints different heuristics from Nolle 2019 including - elbow_up - elbow_down - lowest_plateau_left - lowest_plateau_right - lowest_plateau_centered - best</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>Additional we show the how prediction score normalization affects the anomaly ratio curve and leads to a performance boost im terms of F1-Score on the anomaly detection task</p>
+</blockquote>
+<!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
+<section id="get-anomaly-scores" class="level2">
+<h2 class="anchored" data-anchor-id="get-anomaly-scores">Get Anomaly Scores:</h2>
+<hr>
+<p><a href="https://github.com/joLahann/pympp/blob/main/pympp/anomaly/heuristics.py#L19" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="f_score" class="level3">
+<h3 class="anchored" data-anchor-id="f_score">f_score</h3>
+<blockquote class="blockquote">
+<pre><code> f_score (y_true, y_pred, sample_weight=None)</code></pre>
+</blockquote>
+<hr>
+<p><a href="https://github.com/joLahann/pympp/blob/main/pympp/anomaly/heuristics.py#L32" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="load_pred_model" class="level3">
+<h3 class="anchored" data-anchor-id="load_pred_model">load_pred_model</h3>
+<blockquote class="blockquote">
+<pre><code> load_pred_model (learner_path, train_log_path, log_name,
+                  cols=['activity'])</code></pre>
+</blockquote>
+<hr>
+<p><a href="https://github.com/joLahann/pympp/blob/main/pympp/anomaly/heuristics.py#L48" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="multivariate_anomaly_score" class="level3">
+<h3 class="anchored" data-anchor-id="multivariate_anomaly_score">multivariate_anomaly_score</h3>
+<blockquote class="blockquote">
+<pre><code> multivariate_anomaly_score (res, o, idx, cols, normalization=True)</code></pre>
+</blockquote>
+<hr>
+<p><a href="https://github.com/joLahann/pympp/blob/main/pympp/anomaly/heuristics.py#L67" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="get_score_df" class="level3">
+<h3 class="anchored" data-anchor-id="get_score_df">get_score_df</h3>
+<blockquote class="blockquote">
+<pre><code> get_score_df (log_name, prediction_normalization=True)</code></pre>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>log_name <span class="op">=</span> <span class="st">'1001001'</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>score_df, y_true <span class="op">=</span> get_score_df(log_name)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>score_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">activity</th>
+<th data-quarto-table-cell-role="th">trace_id</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>0.000000</td>
+<td>trace 1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>0.000000</td>
+<td>trace 1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>0.052144</td>
+<td>trace 1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>0.000000</td>
+<td>trace 1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>0.121892</td>
+<td>trace 1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12992</td>
+<td>0.000000</td>
+<td>trace 1000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">12993</td>
+<td>0.000000</td>
+<td>trace 1000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12994</td>
+<td>0.000000</td>
+<td>trace 1000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">12995</td>
+<td>0.000000</td>
+<td>trace 1000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12996</td>
+<td>0.000000</td>
+<td>trace 1000</td>
+</tr>
+</tbody>
+</table>
+
+<p>12997 rows × 2 columns</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="get-predictions-per-threshold" class="level2">
+<h2 class="anchored" data-anchor-id="get-predictions-per-threshold">Get Predictions per threshold</h2>
+<hr>
+<p><a href="https://github.com/joLahann/pympp/blob/main/pympp/anomaly/heuristics.py#L85" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="get_preds" class="level3">
+<h3 class="anchored" data-anchor-id="get_preds">get_preds</h3>
+<blockquote class="blockquote">
+<pre><code> get_preds (score_df, threshold)</code></pre>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ths <span class="op">=</span> np.array((<span class="bu">range</span>(<span class="dv">1000</span>)))<span class="op">*</span><span class="fl">0.001</span> <span class="op">+</span><span class="fl">0.0</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>ths[:<span class="dv">20</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>array([0.   , 0.001, 0.002, 0.003, 0.004, 0.005, 0.006, 0.007, 0.008,
+       0.009, 0.01 , 0.011, 0.012, 0.013, 0.014, 0.015, 0.016, 0.017,
+       0.018, 0.019])</code></pre>
+</div>
+</div>
+<hr>
+<p><a href="https://github.com/joLahann/pympp/blob/main/pympp/anomaly/heuristics.py#L94" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="get_th_df" class="level3">
+<h3 class="anchored" data-anchor-id="get_th_df">get_th_df</h3>
+<blockquote class="blockquote">
+<pre><code> get_th_df (ths, score_df, y_true, log_name, f_score=&lt;function f_score&gt;)</code></pre>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>th_df <span class="op">=</span> get_th_df(ths,score_df,y_true,log_name)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>th_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+    <div>
+      <progress value="1000" class="" max="1000" style="width:300px; height:20px; vertical-align: middle;"></progress>
+      100.00% [1000/1000 00:06&lt;00:00]
+    </div>
+    
+</div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Log Name</th>
+<th data-quarto-table-cell-role="th">F1 Score</th>
+<th data-quarto-table-cell-role="th">Precision</th>
+<th data-quarto-table-cell-role="th">Recall</th>
+<th data-quarto-table-cell-role="th">Anomaly Ratio</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0.000</td>
+<td>1001001</td>
+<td>0.003914</td>
+<td>0.489980</td>
+<td>0.997959</td>
+<td>0.998</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">0.001</td>
+<td>1001001</td>
+<td>0.003914</td>
+<td>0.489980</td>
+<td>0.997959</td>
+<td>0.998</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0.002</td>
+<td>1001001</td>
+<td>0.003914</td>
+<td>0.489980</td>
+<td>0.997959</td>
+<td>0.998</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">0.003</td>
+<td>1001001</td>
+<td>0.003914</td>
+<td>0.489980</td>
+<td>0.997959</td>
+<td>0.998</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0.004</td>
+<td>1001001</td>
+<td>0.003914</td>
+<td>0.489980</td>
+<td>0.997959</td>
+<td>0.998</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0.995</td>
+<td>1001001</td>
+<td>0.775937</td>
+<td>0.996795</td>
+<td>0.634694</td>
+<td>0.312</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">0.996</td>
+<td>1001001</td>
+<td>0.743047</td>
+<td>0.996564</td>
+<td>0.591837</td>
+<td>0.291</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0.997</td>
+<td>1001001</td>
+<td>0.716772</td>
+<td>0.996364</td>
+<td>0.559184</td>
+<td>0.275</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">0.998</td>
+<td>1001001</td>
+<td>0.657110</td>
+<td>0.995851</td>
+<td>0.489796</td>
+<td>0.241</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0.999</td>
+<td>1001001</td>
+<td>0.545701</td>
+<td>0.994595</td>
+<td>0.375510</td>
+<td>0.185</td>
+</tr>
+</tbody>
+</table>
+
+<p>1000 rows × 5 columns</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="heuristics" class="level2">
+<h2 class="anchored" data-anchor-id="heuristics">Heuristics</h2>
+<p>Best Threshold</p>
+<hr>
+<p><a href="https://github.com/joLahann/pympp/blob/main/pympp/anomaly/heuristics.py#L110" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="get_best_threshhold" class="level3">
+<h3 class="anchored" data-anchor-id="get_best_threshhold">get_best_threshhold</h3>
+<blockquote class="blockquote">
+<pre><code> get_best_threshhold (th_df)</code></pre>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>best_threshhold <span class="op">=</span> get_best_threshhold(th_df)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>best_threshhold</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Log Name          1001001
+F1 Score         0.953093
+Precision        0.943888
+Recall           0.961224
+Anomaly Ratio       0.499
+Name: 0.9430000000000001, dtype: object</code></pre>
+</div>
+</div>
+<p>Fixed Threshold</p>
+<hr>
+<p><a href="https://github.com/joLahann/pympp/blob/main/pympp/anomaly/heuristics.py#L114" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="get_fixed_heuristic" class="level3">
+<h3 class="anchored" data-anchor-id="get_fixed_heuristic">get_fixed_heuristic</h3>
+<blockquote class="blockquote">
+<pre><code> get_fixed_heuristic (fixed, th_df)</code></pre>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>fixed <span class="op">=</span> <span class="fl">0.98</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>fixed_heuristic <span class="op">=</span>get_fixed_heuristic(fixed,th_df)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>fixed_heuristic</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Log Name          1001001
+F1 Score         0.932661
+Precision         0.97973
+Recall           0.887755
+Anomaly Ratio       0.444
+Name: 0.98, dtype: object</code></pre>
+</div>
+</div>
+<p>Ratio Heuristic</p>
+<hr>
+<p><a href="https://github.com/joLahann/pympp/blob/main/pympp/anomaly/heuristics.py#L118" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="get_ratio_th" class="level3">
+<h3 class="anchored" data-anchor-id="get_ratio_th">get_ratio_th</h3>
+<blockquote class="blockquote">
+<pre><code> get_ratio_th (ratio, th_df)</code></pre>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>ratio <span class="op">=</span><span class="fl">0.5</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>ratio_heuristic <span class="op">=</span>get_ratio_th(ratio,th_df)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>ratio_heuristic</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Log Name          1001001
+F1 Score         0.953093
+Precision        0.943888
+Recall           0.961224
+Anomaly Ratio       0.499
+Name: 0.9430000000000001, dtype: object</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>half_ratio <span class="op">=</span> partial(get_ratio_th,<span class="fl">0.5</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>half_ratio(th_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Log Name          1001001
+F1 Score         0.953093
+Precision        0.943888
+Recall           0.961224
+Anomaly Ratio       0.499
+Name: 0.9430000000000001, dtype: object</code></pre>
+</div>
+</div>
+<p>Ellbow Heuristic</p>
+<hr>
+<p><a href="https://github.com/joLahann/pympp/blob/main/pympp/anomaly/heuristics.py#L122" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="elbow_heuristic" class="level3">
+<h3 class="anchored" data-anchor-id="elbow_heuristic">elbow_heuristic</h3>
+<blockquote class="blockquote">
+<pre><code> elbow_heuristic (th_df)</code></pre>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>ellbow_down,ellbow_up <span class="op">=</span> elbow_heuristic(th_df)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>ellbow_down,ellbow_up</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>(Log Name          1001001
+ F1 Score         0.820048
+ Precision        0.760188
+ Recall           0.989796
+ Anomaly Ratio       0.638
+ Name: 0.6880000000000001, dtype: object,
+ Log Name          1001001
+ F1 Score          0.65711
+ Precision        0.995851
+ Recall           0.489796
+ Anomaly Ratio       0.241
+ Name: 0.998, dtype: object)</code></pre>
+</div>
+</div>
+<p>Lowest Plateau Heuristic</p>
+<hr>
+<p><a href="https://github.com/joLahann/pympp/blob/main/pympp/anomaly/heuristics.py#L133" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="get_lowest_plateau_heuristic" class="level3">
+<h3 class="anchored" data-anchor-id="get_lowest_plateau_heuristic">get_lowest_plateau_heuristic</h3>
+<blockquote class="blockquote">
+<pre><code> get_lowest_plateau_heuristic (th_df)</code></pre>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>lp_min,lp_mean,lp_max<span class="op">=</span>get_lowest_plateau_heuristic(th_df)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>lp_min,lp_mean,lp_max</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>(Log Name          1001001
+ F1 Score         0.941795
+ Precision        0.977974
+ Recall           0.906122
+ Anomaly Ratio       0.454
+ Name: 0.975, dtype: object,
+ Log Name          1001001
+ F1 Score         0.941795
+ Precision        0.977974
+ Recall           0.906122
+ Anomaly Ratio       0.454
+ Name: 0.975, dtype: object,
+ Log Name          1001001
+ F1 Score         0.941795
+ Precision        0.977974
+ Recall           0.906122
+ Anomaly Ratio       0.454
+ Name: 0.975, dtype: object)</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="visualization" class="level2">
+<h2 class="anchored" data-anchor-id="visualization">Visualization</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>log_name <span class="op">=</span> <span class="st">'1001001'</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>score_df,y_true <span class="op">=</span> get_score_df(log_name)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>ths <span class="op">=</span> np.array((<span class="bu">range</span>(<span class="dv">100</span>)))<span class="op">*</span><span class="fl">0.001</span> <span class="op">+</span><span class="fl">0.9</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>th_df <span class="op">=</span> get_th_df(ths,score_df,y_true,log_name)</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>heuristics <span class="op">=</span> [get_best_threshhold,partial(get_ratio_th,<span class="fl">0.5</span>),elbow_heuristic,</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>              partial(get_fixed_heuristic,<span class="fl">0.98</span>),get_lowest_plateau_heuristic]</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>heuristic_names <span class="op">=</span> [<span class="st">'best'</span>,<span class="st">'r_0.5'</span>,<span class="st">'e_down'</span>,<span class="st">'e_up'</span>,<span class="st">'fix'</span>,<span class="st">'lp_min'</span>,<span class="st">'lp_mean'</span>,<span class="st">'lp_max'</span>]</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>heuristic_scores <span class="op">=</span>[i <span class="cf">for</span> j <span class="kw">in</span> [listify(x(th_df)) <span class="cf">for</span> x <span class="kw">in</span> heuristics] <span class="cf">for</span> i <span class="kw">in</span> j]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+    <div>
+      <progress value="100" class="" max="100" style="width:300px; height:20px; vertical-align: middle;"></progress>
+      100.00% [100/100 00:00&lt;00:00]
+    </div>
+    
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">#export</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_plot_data(th_df,id_vars<span class="op">=</span>[<span class="st">'Log Name'</span>],value_vars <span class="op">=</span> [<span class="st">'F1 Score'</span>,<span class="st">'Anomaly Ratio'</span>]):</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    plot_data<span class="op">=</span>th_df.melt(var_name<span class="op">=</span><span class="st">'Metric'</span>,value_name<span class="op">=</span><span class="st">'Score'</span>,id_vars <span class="op">=</span>id_vars ,value_vars<span class="op">=</span>value_vars,ignore_index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    plot_data[<span class="st">'Threshold'</span>]<span class="op">=</span>plot_data.index</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    plot_data.index<span class="op">=</span><span class="bu">range</span>(<span class="bu">len</span>(plot_data))</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> plot_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>plot_data <span class="op">=</span> get_plot_data(th_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>color_palette <span class="op">=</span> sns.color_palette()</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>sns.<span class="bu">set</span>(rc<span class="op">=</span>{<span class="st">'figure.figsize'</span>:(<span class="dv">18</span>,<span class="dv">10</span>)})</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x<span class="op">=</span><span class="st">"Threshold"</span>, y<span class="op">=</span><span class="st">"Score"</span>,</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>             hue<span class="op">=</span><span class="st">"Metric"</span>,</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>             data<span class="op">=</span>plot_data).<span class="bu">set</span>(title<span class="op">=</span><span class="ss">f'Log: </span><span class="sc">{</span>log_name<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(heuristic_scores)):</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    plt.axvline(heuristic_scores[i].name, <span class="dv">0</span>,<span class="dv">1</span>,color<span class="op">=</span>color_palette[i],linestyle<span class="op">=</span><span class="st">'--'</span>,</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>                label<span class="op">=</span><span class="ss">f"~</span><span class="sc">{</span>heuristic_names[i]<span class="sc">}</span><span class="ss">, </span><span class="sc">{</span>heuristic_scores[i]<span class="sc">.</span>name<span class="sc">}</span><span class="ss">, </span><span class="sc">{</span>heuristic_scores[i][<span class="st">'F1 Score'</span>]<span class="sc">.</span><span class="bu">round</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>plt.legend(bbox_to_anchor<span class="op">=</span>(<span class="fl">1.05</span>, <span class="dv">1</span>), loc<span class="op">=</span><span class="dv">2</span>, borderaxespad<span class="op">=</span><span class="fl">0.</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>&lt;matplotlib.legend.Legend&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="08_anomaly.heuristics_files/figure-html/cell-26-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(<span class="bu">zip</span>([i.name <span class="cf">for</span> i <span class="kw">in</span> heuristic_scores],[i[<span class="st">'F1 Score'</span>] <span class="cf">for</span> i <span class="kw">in</span> heuristic_scores]),</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>             columns<span class="op">=</span>[<span class="st">'Threshold'</span>,<span class="st">'F1-Score'</span>],index<span class="op">=</span>heuristic_names)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Threshold</th>
+<th data-quarto-table-cell-role="th">F1-Score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">best</td>
+<td>0.943</td>
+<td>0.953093</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">r_0.5</td>
+<td>0.943</td>
+<td>0.953093</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">e_down</td>
+<td>0.994</td>
+<td>0.798393</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">e_up</td>
+<td>0.998</td>
+<td>0.657110</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">fix</td>
+<td>0.980</td>
+<td>0.932661</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">lp_min</td>
+<td>0.980</td>
+<td>0.932661</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">lp_mean</td>
+<td>0.980</td>
+<td>0.932661</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">lp_max</td>
+<td>0.980</td>
+<td>0.932661</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
